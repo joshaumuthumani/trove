@@ -24,6 +24,24 @@ export function extractRawgRef(input: string): string | null {
   const s = (input || "").trim();
   if (!s) return null;
   const m = s.match(/\/games\/([^/?#]+)/i);
-  if (m) return decodeURIComponent(m[1]);
-  return s.split(/[?#]/)[0] || null;
+  const ref = m ? decodeURIComponent(m[1]) : s.split(/[?#]/)[0];
+  // RAWG refs are numeric ids or lowercase slugs; reject anything with path
+  // separators or other unexpected chars to avoid upstream path traversal.
+  return ref && /^[A-Za-z0-9][A-Za-z0-9-]*$/.test(ref) ? ref : null;
+}
+
+const IMAGE_HOSTS = new Set(["image.tmdb.org", "media.rawg.io"]);
+
+/* Poster/cover URLs are persisted and later rendered into a raw <img src>, so
+   they must be validated before storage: keep only https URLs served by the
+   TMDB/RAWG image CDNs. Anything else (other hosts, javascript:/data: schemes,
+   or non-URLs) becomes null. Pure. */
+export function safeImageUrl(input: unknown): string | null {
+  if (typeof input !== "string" || !input) return null;
+  try {
+    const u = new URL(input);
+    return u.protocol === "https:" && IMAGE_HOSTS.has(u.hostname) ? u.toString() : null;
+  } catch {
+    return null;
+  }
 }

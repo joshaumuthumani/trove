@@ -10,8 +10,8 @@ export async function GET(req: NextRequest) {
   if (q) {
     try {
       return NextResponse.json({ results: await searchRawgGames(q) });
-    } catch (e) {
-      return NextResponse.json({ error: (e as Error).message }, { status: 502 });
+    } catch {
+      return NextResponse.json({ error: "Upstream metadata request failed." }, { status: 502 });
     }
   }
   const raw = req.nextUrl.searchParams.get("id") || "";
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
   try {
     const meta = await fetchRawgGame(id);
     return NextResponse.json({ id, ...meta });
-  } catch (e) {
-    return NextResponse.json({ error: (e as Error).message }, { status: 502 });
+  } catch {
+    return NextResponse.json({ error: "Upstream metadata request failed." }, { status: 502 });
   }
 }

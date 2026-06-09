@@ -34,7 +34,9 @@ const yearOf = (d?: string) => (d && d.length >= 4 ? parseInt(d.slice(0, 4), 10)
 const posterOf = (p?: string | null) => (p ? IMG_BASE + p : null);
 
 export async function fetchTmdbMovie(id: string | number): Promise<TmdbMovieMeta> {
-  const d = await tmdb<{ title: string; release_date?: string; poster_path?: string | null }>(`/movie/${id}`);
+  const d = await tmdb<{ title: string; release_date?: string; poster_path?: string | null }>(
+    `/movie/${encodeURIComponent(String(id))}`
+  );
   return { title: d.title, year: yearOf(d.release_date), poster_url: posterOf(d.poster_path) };
 }
 
@@ -44,7 +46,7 @@ export async function fetchTmdbTV(id: string | number): Promise<TmdbTVMeta> {
     first_air_date?: string;
     poster_path?: string | null;
     seasons?: { season_number: number; episode_count: number }[];
-  }>(`/tv/${id}`);
+  }>(`/tv/${encodeURIComponent(String(id))}`);
   const seasons = (d.seasons || [])
     .filter((s) => s.season_number >= 1) // drop "Specials" (season 0)
     .map((s) => ({ season: s.season_number, episode_count: s.episode_count }));

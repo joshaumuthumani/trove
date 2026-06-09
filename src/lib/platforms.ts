@@ -32,6 +32,7 @@ export const PLATFORMS: Record<string, PlatformMeta> = {
 };
 
 export const GAME_SERVICES = ["PlayStation", "Xbox", "Steam", "Epic"];
+export const GAME_FORMATS = ["Digital", "Disc"];
 export const MOVIE_DIGITAL = [
   "Apple TV",
   "Movies Anywhere",
@@ -84,3 +85,10 @@ export const isPhysical = (name: string): boolean =>
 const DIGITAL_ONLY_SVC = ["Steam", "Epic"];
 export const isDigitalOnlySvc = (s: string): boolean =>
   DIGITAL_ONLY_SVC.includes(s);
+
+/* Keep only recognised platform/service/format strings from untrusted request
+   bodies; unknown entries (typos, injected values) are dropped. */
+export function filterKnown(input: unknown, allowed: readonly string[]): string[] {
+  if (!Array.isArray(input)) return [];
+  return input.map((v) => String(v)).filter((v) => allowed.includes(v));
+}

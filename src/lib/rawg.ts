@@ -22,7 +22,7 @@ function yearOf(released?: string | null): number | null {
 export async function fetchRawgGame(id: string | number): Promise<RawgGameMeta> {
   const { RAWG_API_KEY } = await getEnv();
   if (!RAWG_API_KEY) throw new Error("RAWG_API_KEY is not configured");
-  const res = await fetch(`https://api.rawg.io/api/games/${id}?key=${RAWG_API_KEY}`);
+  const res = await fetch(`https://api.rawg.io/api/games/${encodeURIComponent(String(id))}?key=${RAWG_API_KEY}`);
   if (!res.ok) throw new Error(`RAWG ${res.status}`);
   const d = (await res.json()) as { name: string; released?: string; background_image?: string | null };
   return { title: d.name, year: yearOf(d.released), cover_url: d.background_image || null };

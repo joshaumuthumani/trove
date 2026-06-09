@@ -12,7 +12,8 @@ export async function GET(req: NextRequest) {
   try {
     const meta = type === "tv" ? await fetchTmdbTV(id) : await fetchTmdbMovie(id);
     return NextResponse.json({ id, ...meta });
-  } catch (e) {
-    return NextResponse.json({ error: (e as Error).message }, { status: 502 });
+  } catch {
+    // Don't leak internals (missing key, upstream status) to the client.
+    return NextResponse.json({ error: "Upstream metadata request failed." }, { status: 502 });
   }
 }

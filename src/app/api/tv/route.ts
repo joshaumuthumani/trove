@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createTV, type TVInput } from "@/lib/mutations";
+import { safeImageUrl } from "@/lib/ids";
+import { filterKnown, TV_PLATFORMS } from "@/lib/platforms";
+import { sameOrigin } from "@/lib/guard";
 import type { Season, SeasonEpisodes } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +21,7 @@ function toSeason(s: Record<string, unknown>): Season {
     season: Number(s.season),
     episode_count: Number(s.episode_count) || 0,
     episodes,
-    owned_on: Array.isArray(s.owned_on) ? (s.owned_on as string[]) : [],
+    owned_on: filterKnown(s.owned_on, TV_PLATFORMS),
   };
 }
 
@@ -27,13 +30,14 @@ export function toTVInput(b: Record<string, unknown>): TVInput {
     tmdb_id: toNum(b.tmdb_id),
     series: String(b.series || b.title || "").trim() || "Untitled",
     year: toNum(b.year),
-    poster_url: (b.poster_url as string) || null,
+    poster_url: safeImageUrl(b.poster_url),
     note: (b.note as string) || null,
     seasons: Array.isArray(b.seasons) ? (b.seasons as Record<string, unknown>[]).map(toSeason) : [],
   };
 }
 
 export async function POST(req: NextRequest) {
+  if (!sameOrigin(req)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const body = (await req.json()) as Record<string, unknown>;
   const id = await createTV(toTVInput(body));
   return NextResponse.json({ id });

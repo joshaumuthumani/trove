@@ -109,7 +109,17 @@ export async function updateGame(id: number, g: GameInput): Promise<void> {
 }
 
 // ---- delete ---------------------------------------------------------------
+// Fixed per-table statements (no string interpolation into SQL) keyed by a typed
+// table name, with a runtime guard so an unexpected key can never build a query.
+const DELETE_SQL: Record<"movies" | "tv_series" | "games", string> = {
+  movies: "DELETE FROM movies WHERE id=?",
+  tv_series: "DELETE FROM tv_series WHERE id=?",
+  games: "DELETE FROM games WHERE id=?",
+};
+
 export async function deleteRow(table: "movies" | "tv_series" | "games", id: number): Promise<void> {
+  const sql = DELETE_SQL[table];
+  if (!sql) throw new Error("Unknown table");
   const db = await getDb();
-  await db.prepare(`DELETE FROM ${table} WHERE id=?`).bind(id).run();
+  await db.prepare(sql).bind(id).run();
 }
