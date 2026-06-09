@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import { extractTrailingId } from "@/lib/ids";
+import { extractMediaId } from "@/lib/ids";
 import { fetchTmdb, fetchRawg } from "@/lib/client-api";
 
 export interface SyncedMeta {
@@ -35,7 +35,7 @@ export function MetaSource({
   const [error, setError] = useState<string | null>(null);
 
   const onPaste = (v: string) => {
-    const num = extractTrailingId(v);
+    const num = extractMediaId(v);
     onId(num || v);
     setSynced(false);
     setError(null);
