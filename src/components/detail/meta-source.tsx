@@ -6,7 +6,8 @@ import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { extractMediaId } from "@/lib/ids";
-import { fetchTmdb, fetchRawg } from "@/lib/client-api";
+import { fetchTmdb, fetchRawg, searchRawg, type RawgCandidate } from "@/lib/client-api";
+import { RawgPicker } from "./rawg-picker";
 
 export interface SyncedMeta {
   title: string;
@@ -33,6 +34,9 @@ export function MetaSource({
   const [synced, setSynced] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [candidates, setCandidates] = useState<RawgCandidate[] | null>(null);
+
+  const isGame = source.type === "game";
 
   const onPaste = (v: string) => {
     const num = extractMediaId(v);
@@ -41,10 +45,38 @@ export function MetaSource({
     setError(null);
   };
 
+  const apply = (c: RawgCandidate) => {
+    onId(String(c.id));
+    onSynced?.({ title: c.title, year: c.year, poster_url: c.cover_url });
+    setSynced(true);
+    setCandidates(null);
+  };
+
   const refetch = async () => {
+    setError(null);
+    // Games: RAWG has no paste-able id, so with no explicit id we search by name
+    // and let the user confirm when there are several matches.
+    if (isGame && !idValue.trim()) {
+      const q = title.trim();
+      if (!q) {
+        setError("Enter a game name first, then Re-fetch to search RAWG.");
+        return;
+      }
+      setLoading(true);
+      try {
+        const results = await searchRawg(q);
+        if (results.length === 0) setError(`No RAWG match for “${q}”.`);
+        else if (results.length === 1) apply(results[0]);
+        else setCandidates(results);
+      } catch (e) {
+        setError((e as Error).message);
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
     if (!idValue) return;
     setLoading(true);
-    setError(null);
     try {
       if (source.type === "game") {
         const m = await fetchRawg(idValue);
@@ -60,6 +92,8 @@ export function MetaSource({
       setLoading(false);
     }
   };
+
+  const canFetch = isGame ? !!idValue.trim() || !!title.trim() : !!idValue;
 
   return (
     <div className="metasrc">
@@ -80,8 +114,14 @@ export function MetaSource({
           <span className="metasrc-k">{source.label} ID or URL</span>
           <div className="metasrc-idrow">
             <input className="mono" value={idValue} onChange={(e) => onPaste(e.target.value)} placeholder={source.ph} />
-            <Button size="sm" variant="default" icon="download" onClick={refetch} disabled={!idValue || loading}>
-              {loading ? "Fetching…" : "Re-fetch"}
+            <Button
+              size="sm"
+              variant="default"
+              icon={isGame && !idValue.trim() ? "search" : "download"}
+              onClick={refetch}
+              disabled={!canFetch || loading}
+            >
+              {loading ? "Fetching…" : isGame && !idValue.trim() ? "Search" : "Re-fetch"}
             </Button>
           </div>
         </label>
@@ -96,7 +136,19 @@ export function MetaSource({
           Synced from {source.label} — title, year &amp; art refreshed
         </div>
       ) : (
-        <div className="metasrc-hint">Paste a new {source.label} link or ID to re-pull metadata &amp; cover art.</div>
+        <div className="metasrc-hint">
+          {isGame
+            ? "Set the title and Search RAWG by name, or paste a RAWG id/URL to re-pull metadata & cover art."
+            : "Paste a new " + source.label + " link or ID to re-pull metadata & cover art."}
+        </div>
+      )}
+      {candidates && (
+        <RawgPicker
+          query={title.trim()}
+          results={candidates}
+          onPick={apply}
+          onCancel={() => setCandidates(null)}
+        />
       )}
     </div>
   );

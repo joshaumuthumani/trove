@@ -468,6 +468,17 @@ h1,h2,h3{letter-spacing:-.02em;font-weight:700}
 .modal h3{font-size:19px;margin-bottom:7px}
 .modal p{color:var(--text-2);font-size:14px;margin-bottom:20px}
 .modal-actions{display:flex;gap:10px;justify-content:center}
+.modal--list{max-width:460px;text-align:left}
+.rawg-pick{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:6px;max-height:360px;overflow-y:auto}
+.rawg-pick-item{width:100%;display:flex;align-items:center;gap:12px;padding:8px;border-radius:12px;border:1px solid transparent;
+  background:transparent;color:inherit;cursor:pointer;text-align:left;transition:background .12s var(--ease),border-color .12s var(--ease)}
+.rawg-pick-item:hover,.rawg-pick-item:focus-visible{background:var(--surface-3);border-color:var(--border-2);outline:none}
+.rawg-pick-cover{flex:none;display:grid;place-items:center;width:42px;height:56px;border-radius:8px;overflow:hidden;
+  background:var(--surface-3);color:var(--text-3)}
+.rawg-pick-cover img{width:100%;height:100%;object-fit:cover}
+.rawg-pick-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rawg-pick-title{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rawg-pick-year{font-size:12px;color:var(--text-2)}
 @keyframes fade{from{opacity:0}}
 @keyframes pop{from{opacity:0;transform:scale(.95)}}
 
