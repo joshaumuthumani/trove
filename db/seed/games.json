@@ -1,0 +1,509 @@
+[
+  {
+    "id": 301,
+    "rawg_id": 3301,
+    "title": "Elden Ring",
+    "year": 2022,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Disc"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 302,
+    "rawg_id": 3302,
+    "title": "The Last of Us Part II",
+    "year": 2020,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Disc"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 303,
+    "rawg_id": 3303,
+    "title": "God of War Ragnarök",
+    "year": 2022,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Digital"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 304,
+    "rawg_id": 3304,
+    "title": "Bloodborne",
+    "year": 2015,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Disc"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 305,
+    "rawg_id": 3305,
+    "title": "Returnal",
+    "year": 2021,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Digital"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 306,
+    "rawg_id": 3306,
+    "title": "Horizon Forbidden West",
+    "year": 2022,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Disc"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 307,
+    "rawg_id": 3307,
+    "title": "Ghost of Tsushima",
+    "year": 2020,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 308,
+    "rawg_id": 3308,
+    "title": "Demon's Souls",
+    "year": 2020,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Disc"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 309,
+    "rawg_id": 3309,
+    "title": "Spider-Man 2",
+    "year": 2023,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 310,
+    "rawg_id": 3310,
+    "title": "Death Stranding",
+    "year": 2019,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Disc"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 311,
+    "rawg_id": 3311,
+    "title": "Red Dead Redemption 2",
+    "year": 2018,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Digital"
+      },
+      {
+        "service": "Xbox",
+        "format": "Disc"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 312,
+    "rawg_id": 3312,
+    "title": "Halo Infinite",
+    "year": 2021,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Xbox",
+        "format": "Digital"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 313,
+    "rawg_id": 3313,
+    "title": "Forza Horizon 5",
+    "year": 2021,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Xbox",
+        "format": "Disc"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 314,
+    "rawg_id": 3314,
+    "title": "Starfield",
+    "year": 2023,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Xbox",
+        "format": "Digital"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 315,
+    "rawg_id": 3315,
+    "title": "Gears 5",
+    "year": 2019,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Xbox",
+        "format": "Disc"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 316,
+    "rawg_id": 3316,
+    "title": "Sea of Thieves",
+    "year": 2018,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Xbox",
+        "format": "Digital"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 317,
+    "rawg_id": 3317,
+    "title": "Hellblade II: Senua's Saga",
+    "year": 2024,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Xbox",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 318,
+    "rawg_id": 3318,
+    "title": "Hi-Fi Rush",
+    "year": 2023,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Xbox",
+        "format": "Digital"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 319,
+    "rawg_id": 3319,
+    "title": "Hades",
+    "year": 2020,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Steam",
+        "format": "Digital"
+      },
+      {
+        "service": "PlayStation",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 320,
+    "rawg_id": 3320,
+    "title": "Hollow Knight",
+    "year": 2017,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Steam",
+        "format": "Digital"
+      },
+      {
+        "service": "Xbox",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 321,
+    "rawg_id": 3321,
+    "title": "Alan Wake 2",
+    "year": 2023,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Epic",
+        "format": "Digital"
+      },
+      {
+        "service": "PlayStation",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 322,
+    "rawg_id": 3322,
+    "title": "Rocket League",
+    "year": 2015,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Epic",
+        "format": "Digital"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 323,
+    "rawg_id": 3323,
+    "title": "Disco Elysium",
+    "year": 2019,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 324,
+    "rawg_id": 3324,
+    "title": "Baldur's Gate 3",
+    "year": 2023,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "PlayStation",
+        "format": "Disc"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 325,
+    "rawg_id": 3325,
+    "title": "Cyberpunk 2077",
+    "year": 2020,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Xbox",
+        "format": "Disc"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      },
+      {
+        "service": "Epic",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 326,
+    "rawg_id": 3326,
+    "title": "The Witcher 3: Wild Hunt",
+    "year": 2015,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Xbox",
+        "format": "Disc"
+      },
+      {
+        "service": "PlayStation",
+        "format": "Digital"
+      },
+      {
+        "service": "Steam",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 327,
+    "rawg_id": 3327,
+    "title": "Sekiro: Shadows Die Twice",
+    "year": 2019,
+    "cover_url": null,
+    "platforms": [],
+    "needs_tagging": 1
+  },
+  {
+    "id": 328,
+    "rawg_id": 3328,
+    "title": "Control",
+    "year": 2019,
+    "cover_url": null,
+    "platforms": [
+      {
+        "service": "Epic",
+        "format": "Digital"
+      },
+      {
+        "service": "PlayStation",
+        "format": "Digital"
+      }
+    ],
+    "needs_tagging": 0
+  },
+  {
+    "id": 329,
+    "rawg_id": 3329,
+    "title": "Inside",
+    "year": 2016,
+    "cover_url": null,
+    "platforms": [],
+    "needs_tagging": 1
+  },
+  {
+    "id": 330,
+    "rawg_id": 3330,
+    "title": "Outer Wilds",
+    "year": 2019,
+    "cover_url": null,
+    "platforms": [],
+    "needs_tagging": 1
+  },
+  {
+    "id": 331,
+    "rawg_id": 3331,
+    "title": "Tunic",
+    "year": 2022,
+    "cover_url": null,
+    "platforms": [],
+    "needs_tagging": 1
+  },
+  {
+    "id": 332,
+    "rawg_id": 3332,
+    "title": "Stray",
+    "year": 2022,
+    "cover_url": null,
+    "platforms": [],
+    "needs_tagging": 1
+  }
+]

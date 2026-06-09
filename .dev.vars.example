@@ -1,0 +1,9 @@
+# Local secrets for `wrangler dev` / `opennextjs-cloudflare preview`.
+# Copy to `.dev.vars` (gitignored) and fill in. In production set these as
+# Cloudflare secrets instead (dashboard or `wrangler secret put`).
+
+# TMDB v3 API key — https://www.themoviedb.org/settings/api
+TMDB_API_KEY=
+
+# RAWG API key — https://rawg.io/apidocs
+RAWG_API_KEY=

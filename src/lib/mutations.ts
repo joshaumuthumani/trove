@@ -1,0 +1,115 @@
+/* Trove — D1 write helpers (create / update / delete). Used by route handlers. */
+import "server-only";
+import { getDb } from "./db";
+import type { Season, GamePlatform, SeasonEpisodes } from "./types";
+
+const arr = (a: unknown) => JSON.stringify(Array.isArray(a) ? a : []);
+const eps = (e: SeasonEpisodes) => (Array.isArray(e) ? JSON.stringify(e) : e);
+
+// ---- movies --------------------------------------------------------------
+export interface MovieInput {
+  tmdb_id: number | null;
+  title: string;
+  year: number | null;
+  poster_url: string | null;
+  digital: string[];
+  physical: string[];
+  needs_review?: boolean;
+}
+
+export async function createMovie(m: MovieInput): Promise<number> {
+  const db = await getDb();
+  const res = await db
+    .prepare(
+      "INSERT INTO movies (tmdb_id,title,year,poster_url,digital,physical,needs_review) VALUES (?,?,?,?,?,?,?)"
+    )
+    .bind(m.tmdb_id, m.title, m.year, m.poster_url, arr(m.digital), arr(m.physical), m.needs_review ? 1 : 0)
+    .run();
+  return Number(res.meta.last_row_id);
+}
+
+export async function updateMovie(id: number, m: MovieInput): Promise<void> {
+  const db = await getDb();
+  await db
+    .prepare(
+      "UPDATE movies SET tmdb_id=?,title=?,year=?,poster_url=?,digital=?,physical=?,needs_review=? WHERE id=?"
+    )
+    .bind(m.tmdb_id, m.title, m.year, m.poster_url, arr(m.digital), arr(m.physical), m.needs_review ? 1 : 0, id)
+    .run();
+}
+
+// ---- tv -------------------------------------------------------------------
+export interface TVInput {
+  tmdb_id: number | null;
+  series: string;
+  year: number | null;
+  poster_url: string | null;
+  note: string | null;
+  seasons: Season[];
+}
+
+async function insertSeasons(db: D1Database, seriesId: number, seasons: Season[]): Promise<void> {
+  if (!seasons.length) return;
+  const stmts = seasons.map((s) =>
+    db
+      .prepare("INSERT INTO tv_seasons (series_id,season,episode_count,episodes,owned_on) VALUES (?,?,?,?,?)")
+      .bind(seriesId, s.season, s.episode_count, eps(s.episodes), arr(s.owned_on))
+  );
+  await db.batch(stmts);
+}
+
+export async function createTV(t: TVInput): Promise<number> {
+  const db = await getDb();
+  const res = await db
+    .prepare("INSERT INTO tv_series (tmdb_id,series,year,poster_url,note) VALUES (?,?,?,?,?)")
+    .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.note)
+    .run();
+  const id = Number(res.meta.last_row_id);
+  await insertSeasons(db, id, t.seasons);
+  return id;
+}
+
+export async function updateTV(id: number, t: TVInput): Promise<void> {
+  const db = await getDb();
+  await db
+    .prepare("UPDATE tv_series SET tmdb_id=?,series=?,year=?,poster_url=?,note=? WHERE id=?")
+    .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.note, id)
+    .run();
+  // Replace seasons wholesale (small N): clear then reinsert.
+  await db.prepare("DELETE FROM tv_seasons WHERE series_id=?").bind(id).run();
+  await insertSeasons(db, id, t.seasons);
+}
+
+// ---- games ----------------------------------------------------------------
+export interface GameInput {
+  rawg_id: number | null;
+  title: string;
+  year: number | null;
+  cover_url: string | null;
+  platforms: GamePlatform[];
+}
+
+export async function createGame(g: GameInput): Promise<number> {
+  const db = await getDb();
+  const clean = (g.platforms || []).filter((e) => e.service);
+  const res = await db
+    .prepare("INSERT INTO games (rawg_id,title,year,cover_url,platforms,needs_tagging) VALUES (?,?,?,?,?,?)")
+    .bind(g.rawg_id, g.title, g.year, g.cover_url, JSON.stringify(clean), clean.length === 0 ? 1 : 0)
+    .run();
+  return Number(res.meta.last_row_id);
+}
+
+export async function updateGame(id: number, g: GameInput): Promise<void> {
+  const db = await getDb();
+  const clean = (g.platforms || []).filter((e) => e.service);
+  await db
+    .prepare("UPDATE games SET rawg_id=?,title=?,year=?,cover_url=?,platforms=?,needs_tagging=? WHERE id=?")
+    .bind(g.rawg_id, g.title, g.year, g.cover_url, JSON.stringify(clean), clean.length === 0 ? 1 : 0, id)
+    .run();
+}
+
+// ---- delete ---------------------------------------------------------------
+export async function deleteRow(table: "movies" | "tv_series" | "games", id: number): Promise<void> {
+  const db = await getDb();
+  await db.prepare(`DELETE FROM ${table} WHERE id=?`).bind(id).run();
+}

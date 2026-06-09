@@ -1,0 +1,921 @@
+{
+  "series": [
+    {
+      "id": 201,
+      "tmdb_id": 60201,
+      "series": "Severance",
+      "year": 2022,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 202,
+      "tmdb_id": 60202,
+      "series": "The Bear",
+      "year": 2022,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 203,
+      "tmdb_id": 60203,
+      "series": "Succession",
+      "year": 2018,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 204,
+      "tmdb_id": 60204,
+      "series": "Breaking Bad",
+      "year": 2008,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 205,
+      "tmdb_id": 60205,
+      "series": "Better Call Saul",
+      "year": 2015,
+      "poster_url": null,
+      "note": "owned, source unspecified on later seasons",
+      "needs_review": 0
+    },
+    {
+      "id": 206,
+      "tmdb_id": 60206,
+      "series": "The Last of Us",
+      "year": 2023,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 207,
+      "tmdb_id": 60207,
+      "series": "Chernobyl",
+      "year": 2019,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 208,
+      "tmdb_id": 60208,
+      "series": "Fargo",
+      "year": 2014,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 209,
+      "tmdb_id": 60209,
+      "series": "True Detective",
+      "year": 2014,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 210,
+      "tmdb_id": 60210,
+      "series": "Mr. Robot",
+      "year": 2015,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 211,
+      "tmdb_id": 60211,
+      "series": "Dark",
+      "year": 2017,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 212,
+      "tmdb_id": 60212,
+      "series": "Andor",
+      "year": 2022,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 213,
+      "tmdb_id": 60213,
+      "series": "The Expanse",
+      "year": 2015,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 214,
+      "tmdb_id": 60214,
+      "series": "Atlanta",
+      "year": 2016,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 215,
+      "tmdb_id": 60215,
+      "series": "Barry",
+      "year": 2018,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 216,
+      "tmdb_id": 60216,
+      "series": "Fleabag",
+      "year": 2016,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 217,
+      "tmdb_id": 60217,
+      "series": "The Leftovers",
+      "year": 2014,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 218,
+      "tmdb_id": 60218,
+      "series": "Halt and Catch Fire",
+      "year": 2014,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 219,
+      "tmdb_id": 60219,
+      "series": "Twin Peaks",
+      "year": 1990,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 220,
+      "tmdb_id": 60220,
+      "series": "Watchmen",
+      "year": 2019,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 221,
+      "tmdb_id": 60221,
+      "series": "Patriot",
+      "year": 2015,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 222,
+      "tmdb_id": 60222,
+      "series": "Devs",
+      "year": 2020,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 223,
+      "tmdb_id": 60223,
+      "series": "Shogun",
+      "year": 2024,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 224,
+      "tmdb_id": 60224,
+      "series": "Ripley",
+      "year": 2024,
+      "poster_url": null,
+      "note": "owned, source unspecified",
+      "needs_review": 0
+    },
+    {
+      "id": 225,
+      "tmdb_id": 60225,
+      "series": "Slow Horses",
+      "year": 2022,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    },
+    {
+      "id": 226,
+      "tmdb_id": 60226,
+      "series": "The Wire",
+      "year": 2002,
+      "poster_url": null,
+      "note": null,
+      "needs_review": 0
+    }
+  ],
+  "seasons": [
+    {
+      "series_id": 201,
+      "season": 1,
+      "episode_count": 9,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV",
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 201,
+      "season": 2,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 202,
+      "season": 1,
+      "episode_count": 8,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 202,
+      "season": 2,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV",
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 202,
+      "season": 3,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 203,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 203,
+      "season": 2,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 203,
+      "season": 3,
+      "episode_count": 9,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 203,
+      "season": 4,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 204,
+      "season": 1,
+      "episode_count": 7,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 204,
+      "season": 2,
+      "episode_count": 13,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 204,
+      "season": 3,
+      "episode_count": 13,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 204,
+      "season": 4,
+      "episode_count": 13,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 204,
+      "season": 5,
+      "episode_count": 16,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 205,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 205,
+      "season": 2,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 205,
+      "season": 3,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 205,
+      "season": 4,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 205,
+      "season": 5,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 205,
+      "season": 6,
+      "episode_count": 13,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 206,
+      "season": 1,
+      "episode_count": 9,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 207,
+      "season": 1,
+      "episode_count": 5,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 208,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 208,
+      "season": 2,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 208,
+      "season": 3,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 208,
+      "season": 4,
+      "episode_count": 11,
+      "episodes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 209,
+      "season": 1,
+      "episode_count": 8,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 209,
+      "season": 2,
+      "episode_count": 8,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 209,
+      "season": 3,
+      "episode_count": 8,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 209,
+      "season": 4,
+      "episode_count": 6,
+      "episodes": "all",
+      "owned_on": [
+        "Xbox Video"
+      ]
+    },
+    {
+      "series_id": 210,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 210,
+      "season": 2,
+      "episode_count": 12,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 210,
+      "season": 3,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 210,
+      "season": 4,
+      "episode_count": 13,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 211,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 211,
+      "season": 2,
+      "episode_count": 8,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 211,
+      "season": 3,
+      "episode_count": 8,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 212,
+      "season": 1,
+      "episode_count": 12,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 213,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 213,
+      "season": 2,
+      "episode_count": 13,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 213,
+      "season": 3,
+      "episode_count": 13,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 213,
+      "season": 4,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 213,
+      "season": 5,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 213,
+      "season": 6,
+      "episode_count": 6,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 214,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 214,
+      "season": 2,
+      "episode_count": 11,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 214,
+      "season": 3,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 214,
+      "season": 4,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 215,
+      "season": 1,
+      "episode_count": 8,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 215,
+      "season": 2,
+      "episode_count": 8,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 215,
+      "season": 3,
+      "episode_count": 8,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 215,
+      "season": 4,
+      "episode_count": 8,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 216,
+      "season": 1,
+      "episode_count": 6,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 216,
+      "season": 2,
+      "episode_count": 6,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 217,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 217,
+      "season": 2,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 217,
+      "season": 3,
+      "episode_count": 8,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 218,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 218,
+      "season": 2,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 218,
+      "season": 3,
+      "episode_count": 10,
+      "episodes": [
+        1,
+        2,
+        3,
+        9,
+        10
+      ],
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 218,
+      "season": 4,
+      "episode_count": 10,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 219,
+      "season": 1,
+      "episode_count": 8,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 219,
+      "season": 2,
+      "episode_count": 22,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 220,
+      "season": 1,
+      "episode_count": 9,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 221,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 221,
+      "season": 2,
+      "episode_count": 8,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 222,
+      "season": 1,
+      "episode_count": 8,
+      "episodes": "all",
+      "owned_on": [
+        "Xbox Video"
+      ]
+    },
+    {
+      "series_id": 223,
+      "season": 1,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 224,
+      "season": 1,
+      "episode_count": 8,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 225,
+      "season": 1,
+      "episode_count": 6,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 225,
+      "season": 2,
+      "episode_count": 6,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV",
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 225,
+      "season": 3,
+      "episode_count": 6,
+      "episodes": "all",
+      "owned_on": [
+        "Apple TV"
+      ]
+    },
+    {
+      "series_id": 225,
+      "season": 4,
+      "episode_count": 6,
+      "episodes": "unowned",
+      "owned_on": []
+    },
+    {
+      "series_id": 226,
+      "season": 1,
+      "episode_count": 13,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 226,
+      "season": 2,
+      "episode_count": 12,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 226,
+      "season": 3,
+      "episode_count": 12,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 226,
+      "season": 4,
+      "episode_count": 13,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    },
+    {
+      "series_id": 226,
+      "season": 5,
+      "episode_count": 10,
+      "episodes": "all",
+      "owned_on": [
+        "Amazon Video"
+      ]
+    }
+  ]
+}
