@@ -15,3 +15,15 @@ export function extractMediaId(input: string): string | null {
   const any = s.match(/\d+/);
   return any ? any[0] : null;
 }
+
+/* RAWG games are addressed by slug (rawg.io/games/shadows-die-twice) or numeric
+   id, and the slug — unlike TMDB — usually has no number to grab. Return the
+   /games/<ref> path segment (slug or id), else a bare slug/id with any query or
+   hash stripped. The RAWG API accepts either form at /api/games/<ref>. Pure. */
+export function extractRawgRef(input: string): string | null {
+  const s = (input || "").trim();
+  if (!s) return null;
+  const m = s.match(/\/games\/([^/?#]+)/i);
+  if (m) return decodeURIComponent(m[1]);
+  return s.split(/[?#]/)[0] || null;
+}

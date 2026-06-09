@@ -62,9 +62,9 @@ export function MovieDetail({ movie }: { movie: Movie }) {
     <>
       <DetailShell
         kind="film"
-        title={movie.title}
-        year={movie.year}
-        posterUrl={movie.poster_url}
+        title={title}
+        year={year}
+        posterUrl={poster}
         ratio="2/3"
         backHref="/movies"
         backLabel="Movies"

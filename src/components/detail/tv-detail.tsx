@@ -64,9 +64,9 @@ export function TVDetail({ series }: { series: TVSeries }) {
     <>
       <DetailShell
         kind="tv"
-        title={series.series}
-        year={series.year}
-        posterUrl={series.poster_url}
+        title={title}
+        year={year}
+        posterUrl={poster}
         ratio="2/3"
         backHref="/tv"
         backLabel="TV"

@@ -58,9 +58,9 @@ export function GameDetail({ game }: { game: Game }) {
     <>
       <DetailShell
         kind="game"
-        title={game.title}
-        year={game.year}
-        posterUrl={game.cover_url}
+        title={title}
+        year={year}
+        posterUrl={cover}
         ratio="3/4"
         backHref="/games"
         backLabel="Games"

@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import { extractMediaId } from "@/lib/ids";
+import { extractMediaId, extractRawgRef } from "@/lib/ids";
 import { fetchTmdb, fetchRawg, searchRawg, type RawgCandidate } from "@/lib/client-api";
 import { RawgPicker } from "./rawg-picker";
 
@@ -39,8 +39,8 @@ export function MetaSource({
   const isGame = source.type === "game";
 
   const onPaste = (v: string) => {
-    const num = extractMediaId(v);
-    onId(num || v);
+    const ref = isGame ? extractRawgRef(v) : extractMediaId(v);
+    onId(ref || v);
     setSynced(false);
     setError(null);
   };
