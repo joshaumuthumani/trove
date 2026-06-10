@@ -31,6 +31,9 @@ export interface MovieRow {
   title: string;
   year: number | null;
   poster_url: string | null;
+  director: string | null;
+  user_score: number | null;
+  overview: string | null;
   digital: string;
   physical: string;
   needs_review: number;
@@ -42,6 +45,9 @@ export interface SeriesRow {
   series: string;
   year: number | null;
   poster_url: string | null;
+  director: string | null;
+  user_score: number | null;
+  overview: string | null;
   note: string | null;
   needs_review: number;
   date_added?: string;
@@ -73,6 +79,9 @@ export function mapMovie(r: MovieRow): Movie {
     title: r.title,
     year: r.year,
     poster_url: r.poster_url,
+    director: r.director ?? null,
+    user_score: r.user_score ?? null,
+    overview: r.overview ?? null,
     digital: parseJsonArr(r.digital),
     physical: parseJsonArr(r.physical),
     needs_review: !!r.needs_review,
@@ -104,6 +113,9 @@ export function mapSeries(r: SeriesRow, seasons: Season[]): TVSeries {
     series: r.series,
     year: r.year,
     poster_url: r.poster_url,
+    director: r.director ?? null,
+    user_score: r.user_score ?? null,
+    overview: r.overview ?? null,
     note: r.note,
     needs_review: !!r.needs_review,
     seasons: seasons.sort((a, b) => a.season - b.season),

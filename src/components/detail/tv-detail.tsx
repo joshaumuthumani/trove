@@ -18,6 +18,9 @@ export function TVDetail({ series }: { series: TVSeries }) {
   const [title, setTitle] = useState(series.series);
   const [year, setYear] = useState<number | null>(series.year);
   const [poster, setPoster] = useState<string | null>(series.poster_url);
+  const [director, setDirector] = useState<string | null>(series.director);
+  const [userScore, setUserScore] = useState<number | null>(series.user_score);
+  const [overview, setOverview] = useState<string | null>(series.overview);
   const [tmdbId, setTmdbId] = useState(String(series.tmdb_id || ""));
   const [del, setDel] = useState(false);
 
@@ -28,6 +31,9 @@ export function TVDetail({ series }: { series: TVSeries }) {
     setTitle(series.series);
     setYear(series.year);
     setPoster(series.poster_url);
+    setDirector(series.director);
+    setUserScore(series.user_score);
+    setOverview(series.overview);
     setTmdbId(String(series.tmdb_id || ""));
   };
 
@@ -35,6 +41,9 @@ export function TVDetail({ series }: { series: TVSeries }) {
     setTitle(m.title);
     setYear(m.year);
     setPoster(m.poster_url);
+    setDirector(m.director ?? null);
+    setUserScore(m.user_score ?? null);
+    setOverview(m.overview ?? null);
     if (m.seasons && m.seasons.length) {
       // Merge fresh episode counts onto existing ownership; add any new seasons.
       const next: Season[] = m.seasons.map((fs) => {
@@ -53,6 +62,9 @@ export function TVDetail({ series }: { series: TVSeries }) {
       series: title.trim() || series.series,
       year,
       poster_url: poster,
+      director,
+      user_score: userScore,
+      overview,
       note: series.note,
       seasons,
     });
@@ -68,6 +80,7 @@ export function TVDetail({ series }: { series: TVSeries }) {
         year={year}
         posterUrl={poster}
         ratio="2/3"
+        score={editing ? userScore : series.user_score}
         backHref="/tv"
         backLabel="TV"
         sub={`${owned}/${series.seasons.length} seasons`}
@@ -92,6 +105,17 @@ export function TVDetail({ series }: { series: TVSeries }) {
             />
             <div className="metasrc-divider" />
           </>
+        )}
+        {!editing && (series.director || series.overview) && (
+          <div className="detail-about">
+            {series.director && (
+              <p className="detail-credit">
+                <span className="detail-credit-k">Created by</span>
+                {series.director}
+              </p>
+            )}
+            {series.overview && <p className="detail-overview">{series.overview}</p>}
+          </div>
         )}
         <div className="ownblock">
           <span className="ownblock-h">

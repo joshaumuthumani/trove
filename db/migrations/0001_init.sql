@@ -22,6 +22,9 @@ CREATE TABLE movies (
   title        TEXT NOT NULL,           -- from TMDB; editable override
   year         INTEGER,
   poster_url   TEXT,                    -- from TMDB, cached
+  director     TEXT,                    -- from TMDB credits, comma-joined
+  user_score   REAL,                    -- TMDB vote_average (0–10)
+  overview     TEXT,                    -- TMDB synopsis
   digital      TEXT NOT NULL DEFAULT '[]', -- JSON: ["iTunes","Movies Anywhere",...]
   physical     TEXT NOT NULL DEFAULT '[]', -- JSON: ["Blu-Ray","DVD"]
   needs_review INTEGER NOT NULL DEFAULT 0, -- bulk backfill couldn't map -> fix later
@@ -35,6 +38,9 @@ CREATE TABLE tv_series (
   series       TEXT NOT NULL,
   year         INTEGER,
   poster_url   TEXT,
+  director     TEXT,                    -- TMDB creators (created_by), comma-joined
+  user_score   REAL,                    -- TMDB vote_average (0–10)
+  overview     TEXT,                    -- TMDB synopsis
   note         TEXT,                    -- e.g. "owned, source unspecified"
   needs_review INTEGER NOT NULL DEFAULT 0,
   date_added   TEXT DEFAULT (datetime('now'))

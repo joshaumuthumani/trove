@@ -21,6 +21,9 @@ export function MovieDetail({ movie }: { movie: Movie }) {
   const [title, setTitle] = useState(movie.title);
   const [year, setYear] = useState<number | null>(movie.year);
   const [poster, setPoster] = useState<string | null>(movie.poster_url);
+  const [director, setDirector] = useState<string | null>(movie.director);
+  const [userScore, setUserScore] = useState<number | null>(movie.user_score);
+  const [overview, setOverview] = useState<string | null>(movie.overview);
   const [tmdbId, setTmdbId] = useState(String(movie.tmdb_id || ""));
   const [del, setDel] = useState(false);
 
@@ -33,6 +36,9 @@ export function MovieDetail({ movie }: { movie: Movie }) {
     setTitle(movie.title);
     setYear(movie.year);
     setPoster(movie.poster_url);
+    setDirector(movie.director);
+    setUserScore(movie.user_score);
+    setOverview(movie.overview);
     setTmdbId(String(movie.tmdb_id || ""));
   };
 
@@ -40,6 +46,9 @@ export function MovieDetail({ movie }: { movie: Movie }) {
     setTitle(m.title);
     setYear(m.year);
     setPoster(m.poster_url);
+    setDirector(m.director ?? null);
+    setUserScore(m.user_score ?? null);
+    setOverview(m.overview ?? null);
   };
 
   const save = async () => {
@@ -48,6 +57,9 @@ export function MovieDetail({ movie }: { movie: Movie }) {
       title: title.trim() || movie.title,
       year,
       poster_url: poster,
+      director,
+      user_score: userScore,
+      overview,
       digital,
       physical,
       needs_review: false,
@@ -66,6 +78,7 @@ export function MovieDetail({ movie }: { movie: Movie }) {
         year={year}
         posterUrl={poster}
         ratio="2/3"
+        score={editing ? userScore : movie.user_score}
         backHref="/movies"
         backLabel="Movies"
         badge={movie.needs_review ? "needs_review" : null}
@@ -93,7 +106,19 @@ export function MovieDetail({ movie }: { movie: Movie }) {
             <PlatformPicker title="Physical" options={MOVIE_PHYSICAL} selected={physical} onToggle={(p) => tog(setPhysical, physical, p)} />
           </div>
         ) : (
-          <div className="ownblock">
+          <>
+            {(movie.director || movie.overview) && (
+              <div className="detail-about">
+                {movie.director && (
+                  <p className="detail-credit">
+                    <span className="detail-credit-k">Director</span>
+                    {movie.director}
+                  </p>
+                )}
+                {movie.overview && <p className="detail-overview">{movie.overview}</p>}
+              </div>
+            )}
+            <div className="ownblock">
             <span className="ownblock-h">Where I own it</span>
             {noneOwned ? (
               <p className="ownblock-empty">
@@ -132,7 +157,8 @@ export function MovieDetail({ movie }: { movie: Movie }) {
                 )}
               </div>
             )}
-          </div>
+            </div>
+          </>
         )}
       </DetailShell>
       {del && (

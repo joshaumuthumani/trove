@@ -12,12 +12,29 @@ const toNum = (v: unknown): number | null => {
   return Number.isFinite(n) ? n : null;
 };
 
+// Bounded text from untrusted bodies: trim, cap length, empty -> null.
+export const toText = (v: unknown, max = 4000): string | null => {
+  if (typeof v !== "string") return null;
+  const s = v.trim();
+  return s ? s.slice(0, max) : null;
+};
+
+// TMDB vote_average lives in 0–10; clamp and drop anything else.
+export const toScore = (v: unknown): number | null => {
+  const n = toNum(v);
+  if (n === null) return null;
+  return Math.min(10, Math.max(0, n));
+};
+
 export function toMovieInput(b: Record<string, unknown>): MovieInput {
   return {
     tmdb_id: toNum(b.tmdb_id),
     title: String(b.title || "").trim() || "Untitled",
     year: toNum(b.year),
     poster_url: safeImageUrl(b.poster_url),
+    director: toText(b.director, 300),
+    user_score: toScore(b.user_score),
+    overview: toText(b.overview),
     digital: filterKnown(b.digital, MOVIE_DIGITAL),
     physical: filterKnown(b.physical, MOVIE_PHYSICAL),
     needs_review: !!b.needs_review,

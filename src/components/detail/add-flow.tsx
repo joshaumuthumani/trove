@@ -24,6 +24,9 @@ interface Meta {
   title: string;
   year: number | null;
   poster_url: string | null;
+  director?: string | null;
+  user_score?: number | null;
+  overview?: string | null;
 }
 
 const LABELS: Record<Catalog, string> = { movies: "movie", tv: "series", games: "game" };
@@ -57,7 +60,15 @@ export function AddFlow({ catalog }: { catalog: Catalog }) {
         setGameEntries([]);
       } else {
         const m = await fetchTmdb(raw, catalog === "tv" ? "tv" : "movie");
-        setMeta({ id: m.id, title: m.title, year: m.year, poster_url: m.poster_url });
+        setMeta({
+          id: m.id,
+          title: m.title,
+          year: m.year,
+          poster_url: m.poster_url,
+          director: m.director,
+          user_score: m.user_score,
+          overview: m.overview,
+        });
         if (catalog === "tv") {
           setSeasons(
             (m.seasons || []).map((s) => ({
@@ -85,11 +96,11 @@ export function AddFlow({ catalog }: { catalog: Catalog }) {
     if (!meta) return;
     let body: Record<string, unknown>;
     if (catalog === "movies") {
-      body = { tmdb_id: meta.id, title: meta.title, year: meta.year, poster_url: meta.poster_url, digital, physical };
+      body = { tmdb_id: meta.id, title: meta.title, year: meta.year, poster_url: meta.poster_url, director: meta.director, user_score: meta.user_score, overview: meta.overview, digital, physical };
     } else if (catalog === "games") {
       body = { rawg_id: meta.id, title: meta.title, year: meta.year, cover_url: meta.poster_url, platforms: gameEntries };
     } else {
-      body = { tmdb_id: meta.id, series: meta.title, year: meta.year, poster_url: meta.poster_url, seasons };
+      body = { tmdb_id: meta.id, series: meta.title, year: meta.year, poster_url: meta.poster_url, director: meta.director, user_score: meta.user_score, overview: meta.overview, seasons };
     }
     const { id } = await createItem(catalog, body);
     router.push(`${cfg.route}/${id}`);

@@ -26,6 +26,9 @@ export interface TmdbMeta {
   title: string;
   year: number | null;
   poster_url: string | null;
+  director: string | null;
+  user_score: number | null;
+  overview: string | null;
   seasons?: { season: number; episode_count: number }[];
 }
 export interface RawgMeta {

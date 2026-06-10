@@ -16,6 +16,7 @@ export function DetailShell({
   posterUrl,
   ratio,
   sub,
+  score,
   badge,
   children,
   backHref,
@@ -32,6 +33,7 @@ export function DetailShell({
   posterUrl: string | null;
   ratio: string;
   sub?: string;
+  score?: number | null;
   badge?: "needs_review" | "needs_tagging" | null;
   children: ReactNode;
   backHref: string;
@@ -65,6 +67,12 @@ export function DetailShell({
           <h1 className="detail-title">{title}</h1>
           <div className="detail-meta">
             {year && <span>{year}</span>}
+            {score != null && (
+              <span className="score-chip" title="TMDB user score (out of 10)">
+                <Icon name="star" size={13} />
+                {score.toFixed(1)}
+              </span>
+            )}
             {sub && (
               <>
                 <span className="dot-sep">·</span>

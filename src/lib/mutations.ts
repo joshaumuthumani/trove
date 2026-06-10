@@ -12,6 +12,9 @@ export interface MovieInput {
   title: string;
   year: number | null;
   poster_url: string | null;
+  director: string | null;
+  user_score: number | null;
+  overview: string | null;
   digital: string[];
   physical: string[];
   needs_review?: boolean;
@@ -21,9 +24,9 @@ export async function createMovie(m: MovieInput): Promise<number> {
   const db = await getDb();
   const res = await db
     .prepare(
-      "INSERT INTO movies (tmdb_id,title,year,poster_url,digital,physical,needs_review) VALUES (?,?,?,?,?,?,?)"
+      "INSERT INTO movies (tmdb_id,title,year,poster_url,director,user_score,overview,digital,physical,needs_review) VALUES (?,?,?,?,?,?,?,?,?,?)"
     )
-    .bind(m.tmdb_id, m.title, m.year, m.poster_url, arr(m.digital), arr(m.physical), m.needs_review ? 1 : 0)
+    .bind(m.tmdb_id, m.title, m.year, m.poster_url, m.director, m.user_score, m.overview, arr(m.digital), arr(m.physical), m.needs_review ? 1 : 0)
     .run();
   return Number(res.meta.last_row_id);
 }
@@ -32,9 +35,9 @@ export async function updateMovie(id: number, m: MovieInput): Promise<void> {
   const db = await getDb();
   await db
     .prepare(
-      "UPDATE movies SET tmdb_id=?,title=?,year=?,poster_url=?,digital=?,physical=?,needs_review=? WHERE id=?"
+      "UPDATE movies SET tmdb_id=?,title=?,year=?,poster_url=?,director=?,user_score=?,overview=?,digital=?,physical=?,needs_review=? WHERE id=?"
     )
-    .bind(m.tmdb_id, m.title, m.year, m.poster_url, arr(m.digital), arr(m.physical), m.needs_review ? 1 : 0, id)
+    .bind(m.tmdb_id, m.title, m.year, m.poster_url, m.director, m.user_score, m.overview, arr(m.digital), arr(m.physical), m.needs_review ? 1 : 0, id)
     .run();
 }
 
@@ -44,6 +47,9 @@ export interface TVInput {
   series: string;
   year: number | null;
   poster_url: string | null;
+  director: string | null;
+  user_score: number | null;
+  overview: string | null;
   note: string | null;
   seasons: Season[];
 }
@@ -61,8 +67,8 @@ async function insertSeasons(db: D1Database, seriesId: number, seasons: Season[]
 export async function createTV(t: TVInput): Promise<number> {
   const db = await getDb();
   const res = await db
-    .prepare("INSERT INTO tv_series (tmdb_id,series,year,poster_url,note) VALUES (?,?,?,?,?)")
-    .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.note)
+    .prepare("INSERT INTO tv_series (tmdb_id,series,year,poster_url,director,user_score,overview,note) VALUES (?,?,?,?,?,?,?,?)")
+    .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.director, t.user_score, t.overview, t.note)
     .run();
   const id = Number(res.meta.last_row_id);
   await insertSeasons(db, id, t.seasons);
@@ -72,8 +78,8 @@ export async function createTV(t: TVInput): Promise<number> {
 export async function updateTV(id: number, t: TVInput): Promise<void> {
   const db = await getDb();
   await db
-    .prepare("UPDATE tv_series SET tmdb_id=?,series=?,year=?,poster_url=?,note=? WHERE id=?")
-    .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.note, id)
+    .prepare("UPDATE tv_series SET tmdb_id=?,series=?,year=?,poster_url=?,director=?,user_score=?,overview=?,note=? WHERE id=?")
+    .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.director, t.user_score, t.overview, t.note, id)
     .run();
   // Replace seasons wholesale (small N): clear then reinsert.
   await db.prepare("DELETE FROM tv_seasons WHERE series_id=?").bind(id).run();

@@ -13,6 +13,9 @@ export interface SyncedMeta {
   title: string;
   year: number | null;
   poster_url: string | null;
+  director?: string | null;
+  user_score?: number | null;
+  overview?: string | null;
   seasons?: { season: number; episode_count: number }[];
 }
 
@@ -83,7 +86,15 @@ export function MetaSource({
         onSynced?.({ title: m.title, year: m.year, poster_url: m.cover_url });
       } else {
         const m = await fetchTmdb(idValue, source.type);
-        onSynced?.({ title: m.title, year: m.year, poster_url: m.poster_url, seasons: m.seasons });
+        onSynced?.({
+          title: m.title,
+          year: m.year,
+          poster_url: m.poster_url,
+          director: m.director,
+          user_score: m.user_score,
+          overview: m.overview,
+          seasons: m.seasons,
+        });
       }
       setSynced(true);
     } catch (e) {

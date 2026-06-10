@@ -3,6 +3,7 @@ import { createTV, type TVInput } from "@/lib/mutations";
 import { safeImageUrl } from "@/lib/ids";
 import { filterKnown, TV_PLATFORMS } from "@/lib/platforms";
 import { sameOrigin } from "@/lib/guard";
+import { toText, toScore } from "../movies/route";
 import type { Season, SeasonEpisodes } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,9 @@ export function toTVInput(b: Record<string, unknown>): TVInput {
     series: String(b.series || b.title || "").trim() || "Untitled",
     year: toNum(b.year),
     poster_url: safeImageUrl(b.poster_url),
+    director: toText(b.director, 300),
+    user_score: toScore(b.user_score),
+    overview: toText(b.overview),
     note: (b.note as string) || null,
     seasons: Array.isArray(b.seasons) ? (b.seasons as Record<string, unknown>[]).map(toSeason) : [],
   };
