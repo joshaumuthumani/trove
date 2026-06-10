@@ -4,7 +4,7 @@
    row rendering. Ported from catalog.jsx CatalogView. */
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { cx } from "@/lib/cx";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
@@ -58,6 +58,10 @@ export function CatalogView({
   const [density, setDensity] = usePersistedDensity();
   const router = useRouter();
   const pathname = usePathname();
+  // Carry the active filters/sort (URL state) into each detail link so the
+  // detail's "back" link can return to the same filtered/sorted list.
+  const qs = useSearchParams().toString();
+  const detailHref = (id: number) => `${cfg.route}/${id}${qs ? `?${qs}` : ""}`;
 
   const thumb = density === "compact" ? 34 : 46;
   const maxChips = density === "compact" ? 2 : 3;
@@ -106,7 +110,7 @@ export function CatalogView({
           </div>
           <div className="tbody">
             {rows.map((r) => (
-              <Link key={r.id} className="trow" href={`${cfg.route}/${r.id}`}>
+              <Link key={r.id} className="trow" href={detailHref(r.id)}>
                 <span className="td td-thumb">
                   <PosterTile title={r.title} year={r.year} src={r.poster_url} size={thumb} rounded={6} ratio={cfg.ratio} kind={cfg.icon} />
                 </span>

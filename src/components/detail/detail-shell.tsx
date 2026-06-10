@@ -3,6 +3,7 @@
    Ported from detail.jsx DetailShell. */
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -42,9 +43,13 @@ export function DetailShell({
   onCancel: () => void;
 }) {
   const kicker = kind === "film" ? "Movie" : kind === "tv" ? "TV Series" : "Game";
+  // Preserve the list's filters/sort (carried in via the row link's query) so
+  // "back" returns to the same filtered/sorted catalog, not a reset list.
+  const qs = useSearchParams().toString();
+  const backTo = qs ? `${backHref}?${qs}` : backHref;
   return (
     <div className="detail">
-      <Link className="cat-back detail-back" href={backHref}>
+      <Link className="cat-back detail-back" href={backTo}>
         <Icon name="chevronLeft" size={16} />
         {backLabel}
       </Link>
