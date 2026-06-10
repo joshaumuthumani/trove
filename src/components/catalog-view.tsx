@@ -22,6 +22,8 @@ export interface DisplayRow {
   year: number | null;
   poster_url: string | null;
   chips: string[]; // movies/tv: owned-on names
+  director?: string | null; // movies/tv only
+  user_score?: number | null; // movies/tv only (0–10)
   seasons?: number;
   owned?: number;
   platforms?: GamePlatform[];
@@ -103,8 +105,10 @@ export function CatalogView({
             <span className="th th-thumb"></span>
             <span className="th th-title">Title</span>
             {catalog === "tv" && <span className="th th-num">Seasons</span>}
+            {catalog !== "games" && <span className="th th-dir">{catalog === "tv" ? "Created by" : "Director"}</span>}
             {catalog === "games" && <span className="th th-own">Owned on</span>}
             <span className="th th-year">Year</span>
+            {catalog !== "games" && <span className="th th-score">Score</span>}
             {catalog !== "games" && <span className="th th-own">Owned on</span>}
             {catalog === "games" && <span className="th th-status">Status</span>}
           </div>
@@ -124,12 +128,25 @@ export function CatalogView({
                     <span className="td-num-sub">/{r.seasons}</span>
                   </span>
                 )}
+                {catalog !== "games" && <span className="td td-dir">{r.director || "—"}</span>}
                 {catalog === "games" && (
                   <span className="td td-own">
                     <GamePlatformChips entries={r.platforms || []} max={maxChips} size={22} />
                   </span>
                 )}
                 <span className="td td-year">{r.year || "—"}</span>
+                {catalog !== "games" && (
+                  <span className="td td-score">
+                    {r.user_score != null ? (
+                      <>
+                        <Icon name="star" size={12} />
+                        {r.user_score.toFixed(1)}
+                      </>
+                    ) : (
+                      "—"
+                    )}
+                  </span>
+                )}
                 {catalog !== "games" && (
                   <span className="td td-own">
                     <LogoRow names={r.chips} max={maxChips} size={22} />

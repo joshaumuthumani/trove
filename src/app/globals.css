@@ -304,6 +304,10 @@ h1,h2,h3{letter-spacing:-.02em;font-weight:700}
 .trow-title{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}
 .td-thumb{display:flex}
 .td-year{font-variant-numeric:tabular-nums;color:var(--text-2);font-family:var(--font-mono),monospace;font-size:13px}
+.td-dir{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;color:var(--text-2);font-size:13.5px}
+.td-score{display:flex;align-items:center;gap:3px;font-variant-numeric:tabular-nums;color:var(--text-2);
+  font-family:var(--font-mono),monospace;font-size:13px}
+.td-score svg{color:#e9b949;flex:none}
 .td-num{font-variant-numeric:tabular-nums;font-weight:600}
 .td-num-sub{color:var(--text-3);font-weight:500}
 .gchip .chip-suffix{color:var(--text-3);font-weight:500;margin-left:-1px}
@@ -312,25 +316,27 @@ h1,h2,h3{letter-spacing:-.02em;font-weight:700}
 .status-ok{display:inline-flex;align-items:center;gap:5px;color:var(--ok);font-size:13px;font-weight:600}
 
 /* density: comfortable */
+/* movies: Thumb | Title | Director | Year | Score | Owned on */
 .density-comfortable .thead,
-.density-comfortable .trow{grid-template-columns:64px minmax(0,1.05fr) 76px minmax(248px,1.75fr)}
+.density-comfortable .trow{grid-template-columns:64px minmax(0,1fr) minmax(0,.85fr) 72px 64px minmax(208px,1.3fr)}
 .density-comfortable .trow{min-height:72px}
 .density-comfortable .trow .td-thumb{padding:10px 0}
 /* games has more columns */
 .density-comfortable .table[data-cat="games"] .thead,
 .density-comfortable .table[data-cat="games"] .trow{grid-template-columns:64px minmax(0,1fr) minmax(264px,1.9fr) 72px 116px}
+/* tv: Thumb | Title | Seasons | Created by | Year | Score | Owned on */
 .density-comfortable .table[data-cat="tv"] .thead,
-.density-comfortable .table[data-cat="tv"] .trow{grid-template-columns:64px minmax(0,1fr) 84px 72px minmax(224px,1.7fr)}
+.density-comfortable .table[data-cat="tv"] .trow{grid-template-columns:64px minmax(0,1fr) 84px minmax(0,.8fr) 72px 64px minmax(188px,1.25fr)}
 /* density: compact */
 .density-compact .thead{height:32px}
 .density-compact .trow{min-height:48px}
 .density-compact .td{font-size:13.5px}
 .density-compact .thead,
-.density-compact .trow{grid-template-columns:48px minmax(0,1fr) 60px minmax(208px,1.7fr)}
+.density-compact .trow{grid-template-columns:48px minmax(0,1fr) minmax(0,.8fr) 60px 56px minmax(184px,1.3fr)}
 .density-compact .table[data-cat="games"] .thead,
 .density-compact .table[data-cat="games"] .trow{grid-template-columns:48px minmax(0,1fr) minmax(224px,1.8fr) 60px 100px}
 .density-compact .table[data-cat="tv"] .thead,
-.density-compact .table[data-cat="tv"] .trow{grid-template-columns:48px minmax(0,1fr) 76px 60px minmax(196px,1.55fr)}
+.density-compact .table[data-cat="tv"] .trow{grid-template-columns:48px minmax(0,1fr) 76px minmax(0,.78fr) 60px 56px minmax(168px,1.25fr)}
 
 .cat-empty{display:flex;flex-direction:column;align-items:center;gap:12px;padding:72px 20px;text-align:center;
   border:1px dashed var(--border-2);border-radius:var(--r-md);color:var(--text-2)}
@@ -555,7 +561,7 @@ h1,h2,h3{letter-spacing:-.02em;font-weight:700}
     grid-template-columns:auto 1fr;grid-auto-rows:auto;gap:4px 12px;padding:12px 14px;min-height:0}
   .td-thumb{grid-row:1/span 3}
   .td-title{grid-column:2}
-  .td-year,.td-num,.td-svc,.td-fmt,.td-status{display:none}
+  .td-year,.td-num,.td-svc,.td-fmt,.td-status,.td-dir,.td-score{display:none}
   .td-own{grid-column:2}
   .srow{grid-template-columns:28px 1fr;gap:8px 10px}
   .srow-mode{grid-column:2}.srow-plat{grid-column:2;justify-content:flex-start}

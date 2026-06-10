@@ -24,6 +24,8 @@ export default async function TVPage({ searchParams }: { searchParams: SP }) {
     year: v.year,
     poster_url: v.raw.poster_url,
     chips: v.chips,
+    director: v.raw.director,
+    user_score: v.raw.user_score,
     seasons: v.seasons,
     owned: v.owned,
   }));

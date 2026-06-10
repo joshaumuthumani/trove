@@ -24,6 +24,8 @@ export default async function MoviesPage({ searchParams }: { searchParams: SP })
     year: v.year,
     poster_url: v.raw.poster_url,
     chips: v.chips,
+    director: v.raw.director,
+    user_score: v.raw.user_score,
     badge: v.badge,
   }));
   return <CatalogView catalog="movies" rows={rows} total={movies.length} />;
