@@ -23,7 +23,10 @@ const movies = read("movies.json");
 const tv = read("tv.json");
 const games = read("games.json");
 
-const lines: string[] = ["PRAGMA foreign_keys = ON;", "BEGIN TRANSACTION;"];
+// No explicit BEGIN/COMMIT: remote D1 rejects SQL transaction statements over
+// the HTTP API, and `wrangler d1 execute --file` already applies the whole file
+// atomically (rolling back to the original state on failure).
+const lines: string[] = ["PRAGMA foreign_keys = ON;"];
 lines.push("DELETE FROM tv_seasons;", "DELETE FROM tv_series;", "DELETE FROM movies;", "DELETE FROM games;");
 
 for (const m of movies) {
@@ -54,7 +57,6 @@ for (const g of games) {
     )},${q(g.title)},${q(g.year)},${q(g.cover_url)},${json(g.platforms)},${g.needs_tagging});`
   );
 }
-lines.push("COMMIT;");
 
 const sqlPath = path.join(SEED, "_seed.sql");
 fs.writeFileSync(sqlPath, lines.join("\n"));
