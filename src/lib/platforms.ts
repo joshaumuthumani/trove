@@ -43,6 +43,20 @@ export const MOVIE_DIGITAL = [
 export const MOVIE_PHYSICAL = ["Ultra HD Blu-ray", "Blu-Ray", "DVD"];
 export const TV_PLATFORMS = ["Apple TV", "Amazon Video", "Xbox Video"];
 
+export const MOVIES_ANYWHERE = "Movies Anywhere";
+
+/* Toggle a digital locker with the Movies Anywhere cascade. Movies Anywhere is
+   an aggregator: owning a title there means it's on every participating locker,
+   so checking it selects them all and unchecking it clears them all. Toggling
+   any other locker is a plain toggle and never flips Movies Anywhere (the
+   relationship is one-way — "not the reverse"). */
+export function toggleDigital(selected: string[], p: string): string[] {
+  if (p === MOVIES_ANYWHERE) {
+    return selected.includes(MOVIES_ANYWHERE) ? [] : [...MOVIE_DIGITAL];
+  }
+  return selected.includes(p) ? selected.filter((x) => x !== p) : [...selected, p];
+}
+
 export interface ServiceLogo {
   src: string;
   bg: string;

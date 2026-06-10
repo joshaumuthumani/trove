@@ -13,7 +13,7 @@ import { PlatformPicker } from "./platform-picker";
 import { GamePlatformsEditor } from "./game-platforms-editor";
 import { SeasonGrid } from "./season-grid";
 import { CATALOG_META } from "@/lib/catalog";
-import { MOVIE_DIGITAL, MOVIE_PHYSICAL } from "@/lib/platforms";
+import { MOVIE_DIGITAL, MOVIE_PHYSICAL, toggleDigital } from "@/lib/platforms";
 import { fetchTmdb, fetchRawg, createItem } from "@/lib/client-api";
 import type { Catalog, GamePlatform, Season } from "@/lib/types";
 
@@ -194,7 +194,7 @@ export function AddFlow({ catalog }: { catalog: Catalog }) {
                 <label className="add-step-label">Set ownership</label>
                 {catalog === "movies" && (
                   <div className="edit-block">
-                    <PlatformPicker title="Digital lockers" options={MOVIE_DIGITAL} selected={digital} onToggle={(p) => tog(setDigital, digital, p)} />
+                    <PlatformPicker title="Digital lockers" options={MOVIE_DIGITAL} selected={digital} onToggle={(p) => setDigital(toggleDigital(digital, p))} />
                     <PlatformPicker title="Physical" options={MOVIE_PHYSICAL} selected={physical} onToggle={(p) => tog(setPhysical, physical, p)} />
                   </div>
                 )}

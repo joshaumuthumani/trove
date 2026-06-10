@@ -9,7 +9,7 @@ import { DetailShell } from "./detail-shell";
 import { DeleteConfirm } from "./delete-confirm";
 import { MetaSource, type SyncedMeta } from "./meta-source";
 import { PlatformPicker } from "./platform-picker";
-import { MOVIE_DIGITAL, MOVIE_PHYSICAL } from "@/lib/platforms";
+import { MOVIE_DIGITAL, MOVIE_PHYSICAL, toggleDigital } from "@/lib/platforms";
 import { updateItem, deleteItem } from "@/lib/client-api";
 import type { Movie } from "@/lib/types";
 
@@ -89,7 +89,7 @@ export function MovieDetail({ movie }: { movie: Movie }) {
               onSynced={onSynced}
             />
             <div className="metasrc-divider" />
-            <PlatformPicker title="Digital lockers" options={MOVIE_DIGITAL} selected={digital} onToggle={(p) => tog(setDigital, digital, p)} />
+            <PlatformPicker title="Digital lockers" options={MOVIE_DIGITAL} selected={digital} onToggle={(p) => setDigital(toggleDigital(digital, p))} />
             <PlatformPicker title="Physical" options={MOVIE_PHYSICAL} selected={physical} onToggle={(p) => tog(setPhysical, physical, p)} />
           </div>
         ) : (
