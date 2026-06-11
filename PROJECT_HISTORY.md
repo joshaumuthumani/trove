@@ -169,7 +169,7 @@ the mobile breakpoint.
 
 ---
 
-## Phase 6 — Bug fixes
+## Phase 6 — Bug fixes & maintenance
 
 ### Fix catalog search input lag and season/platform layout overlap
 [`6a04c5c`](https://github.com/joshaumuthumani/trove/commit/6a04c5c) · 2026-06-10
@@ -186,3 +186,17 @@ the mobile breakpoint.
   constrained add-flow it overflowed onto the platform column. Changed to
   `width:100%` with a `200px` cap so it fits its cell. Verified in-browser at
   desktop (clean 12px gutter) and narrow (stacks vertically).
+
+### Remove discontinued Xbox Video as a TV platform
+[`7abe3b5`](https://github.com/joshaumuthumani/trove/commit/7abe3b5) · 2026-06-10
+
+Xbox Video (Microsoft's TV/movie store) has been discontinued, so it was
+dropped from the selectable TV platform vocabulary — same treatment as the
+defunct "Microsoft Movies" locker. Removed from `TV_PLATFORMS` and its
+`PLATFORMS`/`SERVICE_LOGO` entries (the "Xbox" game *service* is unaffected),
+mapped to `None` in the importer (`TV_ORDER`) so a re-import won't reintroduce
+it, and stripped from the seed's 11 affected seasons (9 had it as their only
+platform → owned-but-source-unspecified; all stay owned). Live D1 cleaned via a
+JSON-aware `UPDATE` on `tv_seasons.owned_on` (local 11→0, production 9→0; the
+prod catalog has diverged from the seed through in-app edits, so a targeted
+update was used rather than a re-seed).
