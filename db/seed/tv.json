@@ -2570,8 +2570,7 @@
       ],
       "owned_on": [
         "Apple TV",
-        "Amazon Video",
-        "Xbox Video"
+        "Amazon Video"
       ]
     },
     {
@@ -2592,9 +2591,7 @@
       "episodes": [
         1
       ],
-      "owned_on": [
-        "Xbox Video"
-      ]
+      "owned_on": []
     },
     {
       "series_id": 28,
@@ -2654,9 +2651,7 @@
       "season": 1,
       "episode_count": null,
       "episodes": "all",
-      "owned_on": [
-        "Xbox Video"
-      ]
+      "owned_on": []
     },
     {
       "series_id": 33,
@@ -2809,9 +2804,7 @@
       "episodes": [
         24
       ],
-      "owned_on": [
-        "Xbox Video"
-      ]
+      "owned_on": []
     },
     {
       "series_id": 40,
@@ -3112,8 +3105,7 @@
         1
       ],
       "owned_on": [
-        "Apple TV",
-        "Xbox Video"
+        "Apple TV"
       ]
     },
     {
@@ -3213,9 +3205,7 @@
         1,
         13
       ],
-      "owned_on": [
-        "Xbox Video"
-      ]
+      "owned_on": []
     },
     {
       "series_id": 62,
@@ -3299,9 +3289,7 @@
       "episodes": [
         1
       ],
-      "owned_on": [
-        "Xbox Video"
-      ]
+      "owned_on": []
     },
     {
       "series_id": 67,
@@ -3691,9 +3679,7 @@
       "season": 1,
       "episode_count": null,
       "episodes": "all",
-      "owned_on": [
-        "Xbox Video"
-      ]
+      "owned_on": []
     },
     {
       "series_id": 91,
@@ -4357,9 +4343,7 @@
       "season": 1,
       "episode_count": null,
       "episodes": "all",
-      "owned_on": [
-        "Xbox Video"
-      ]
+      "owned_on": []
     },
     {
       "series_id": 136,
@@ -4679,9 +4663,7 @@
       "episodes": [
         1
       ],
-      "owned_on": [
-        "Xbox Video"
-      ]
+      "owned_on": []
     },
     {
       "series_id": 156,
@@ -5053,9 +5035,7 @@
       "season": 1,
       "episode_count": null,
       "episodes": "all",
-      "owned_on": [
-        "Xbox Video"
-      ]
+      "owned_on": []
     },
     {
       "series_id": 189,

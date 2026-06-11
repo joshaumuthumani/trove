@@ -22,8 +22,6 @@ export const PLATFORMS: Record<string, PlatformMeta> = {
   "Blu-Ray": { kind: "physical", dot: "#6f7bf0" },
   "Ultra HD Blu-ray": { kind: "physical", dot: "#4aa3d6" },
   DVD: { kind: "physical", dot: "#8a8a93" },
-  // TV
-  "Xbox Video": { kind: "tv", dot: "#3aa07a" },
   // Games service
   PlayStation: { kind: "service", dot: "#4f7df0" },
   Xbox: { kind: "service", dot: "#3aa07a" },
@@ -41,7 +39,7 @@ export const MOVIE_DIGITAL = [
   "YouTube",
 ];
 export const MOVIE_PHYSICAL = ["Ultra HD Blu-ray", "Blu-Ray", "DVD"];
-export const TV_PLATFORMS = ["Apple TV", "Amazon Video", "Xbox Video"];
+export const TV_PLATFORMS = ["Apple TV", "Amazon Video"];
 
 export const MOVIES_ANYWHERE = "Movies Anywhere";
 
@@ -70,7 +68,6 @@ export interface ServiceLogo {
 export const SERVICE_LOGO: Record<string, ServiceLogo> = {
   PlayStation: { src: "/logos/playstation.svg", bg: "#0070d1", pad: 0.21 },
   Xbox: { src: "/logos/xbox.svg", bg: "#107c10", pad: 0.18 },
-  "Xbox Video": { src: "/logos/xbox.svg", bg: "#107c10", pad: 0.18 },
   Steam: { src: "/logos/steam.svg", bg: "#1b2838", pad: 0.04 },
   Epic: { src: "/logos/epic.svg", bg: "#2f2d2e", pad: 0.05 },
   "Fandango at Home": { src: "/logos/vudu.svg", bg: "#1b50d8", pad: 0.21 },

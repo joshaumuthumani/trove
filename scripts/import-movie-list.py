@@ -53,14 +53,14 @@ PHYSICAL_ORDER = ["Blu-Ray", "DVD"]
 TV_SERVICE = {
     "iTunes": "Apple TV",
     "Amazon Video": "Amazon Video",
-    "XBox Video": "Xbox Video",
+    "XBox Video": None,  # discontinued store -> dropped (cf. Microsoft Movies)
     # empty in source, mapped defensively / dropped:
     "Google Play": None,
     "Movies Anywhere": None,
     "VUDU": None,
     "Fandango Now": None,
 }
-TV_ORDER = ["Apple TV", "Amazon Video", "Xbox Video"]
+TV_ORDER = ["Apple TV", "Amazon Video"]
 
 
 def is_yes(v):
