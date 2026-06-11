@@ -1,7 +1,7 @@
 "use client";
 /* Trove — catalog filter bar. Self-contained: reads/writes sort/filter/search to
    the URL query (refresh-safe, shareable). Ported from catalog.jsx FilterBar. */
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { cx } from "@/lib/cx";
 import { Icon } from "@/components/ui/icon";
@@ -25,6 +25,7 @@ export function FilterBar({
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
+  const [, startTransition] = useTransition();
 
   const setParam = useCallback(
     (key: string, val: string) => {
@@ -32,12 +33,39 @@ export function FilterBar({
       if (!val) q.delete(key);
       else q.set(key, val);
       const qs = q.toString();
-      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+      // Mark the navigation as a transition so the heavy RSC re-render never
+      // blocks urgent UI updates (e.g. keystrokes in the search box).
+      startTransition(() => {
+        router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+      });
     },
     [params, pathname, router]
   );
 
   const q = params.get("q") || "";
+
+  // The search box is driven by local state so typed characters appear
+  // instantly and are never clobbered by the async URL round-trip. The URL
+  // (and thus the server-side filter) is updated on a short debounce.
+  const [search, setSearch] = useState(q);
+  const lastPushed = useRef(q);
+  // Adopt the URL value when it changes from outside this input (back/forward,
+  // the clear button, filters that rewrite the query string).
+  useEffect(() => {
+    if (q !== lastPushed.current) {
+      setSearch(q);
+      lastPushed.current = q;
+    }
+  }, [q]);
+  // Debounce the URL write driven by local typing.
+  useEffect(() => {
+    if (search === lastPushed.current) return;
+    const t = setTimeout(() => {
+      lastPushed.current = search;
+      setParam("q", search);
+    }, 150);
+    return () => clearTimeout(t);
+  }, [search, setParam]);
   const plat = params.get("plat") || "";
   const fmt = params.get("fmt") || "";
   const flag = params.get("flag") || "";
@@ -56,13 +84,13 @@ export function FilterBar({
       <div className="filterbar-search">
         <Icon name="search" size={17} className="fb-search-icon" />
         <input
-          value={q}
-          onChange={(e) => setParam("q", e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           placeholder={`Search ${CATALOG_META[catalog].name.toLowerCase()}…`}
           aria-label="Search within catalog"
         />
-        {q && (
-          <button className="fb-clear" onClick={() => setParam("q", "")} aria-label="Clear">
+        {search && (
+          <button className="fb-clear" onClick={() => setSearch("")} aria-label="Clear">
             <Icon name="x" size={15} />
           </button>
         )}
