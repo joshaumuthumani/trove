@@ -5,8 +5,10 @@
 - **Design source of truth:** `db/source/` keeps the PRD; the hi-fi prototype it
   was ported from lives in the design handoff. The prototype's CSS was ported
   verbatim into `src/app/globals.css` — keep class names stable so components map
-  1:1. Status hues (amber `needs_review`, indigo `Untagged`, green tagged) must
-  stay distinct from the rose action accent.
+  1:1. The action/theme accent is **brand gold** (`--accent`, the gold-chest logo
+  color); destructive actions use a separate **red** `--danger` token. Status hues
+  (orange `needs_review`, indigo `Untagged`, green tagged) must stay distinct from
+  both the gold accent and the red danger color.
 - **Ownership marks:** services render as square logo tiles (`ServiceMark`),
   physical formats as logo pills (`FormatBadge`); routed by `isPhysical()`. Games
   collapse same-service entries via `groupGamePlatforms()`. See

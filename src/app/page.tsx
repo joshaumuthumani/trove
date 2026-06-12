@@ -1,7 +1,7 @@
 /* Trove — Launchpad (/). Three catalog cards with live counts + big global
    search. Ported from launchpad.jsx (cinema concept). */
-import { Icon } from "@/components/ui/icon";
 import { GlobalSearch } from "@/components/global-search";
+import { BrandMark } from "@/components/ui/brand-mark";
 import { LaunchpadCard } from "@/components/launchpad-card";
 import { getCounts, getLaunchpadArt } from "@/lib/queries";
 
@@ -20,9 +20,7 @@ export default async function LaunchpadPage() {
       <div className="lp-hero">
         <div className="lp-hero-top">
           <div className="lp-wordmark">
-            <span className="lp-mark">
-              <Icon name="home" size={20} />
-            </span>
+            <BrandMark size={46} />
             <div>
               <h1>Trove</h1>
               <p>{total} things you own, across movies, TV &amp; games.</p>

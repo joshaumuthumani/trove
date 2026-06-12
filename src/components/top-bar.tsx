@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cx } from "@/lib/cx";
 import { Icon } from "@/components/ui/icon";
+import { BrandMark } from "@/components/ui/brand-mark";
 import { GlobalSearch } from "@/components/global-search";
 
 const NAV: [string, string, string][] = [
@@ -19,9 +20,7 @@ export function TopBar() {
   return (
     <header className="topbar">
       <Link href="/" className="topbar-brand">
-        <span className="topbar-mark">
-          <Icon name="home" size={17} />
-        </span>
+        <BrandMark size={28} />
         Trove
       </Link>
       <nav className="topbar-nav">

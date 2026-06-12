@@ -1,5 +1,6 @@
-/* Trove — status badge. Status hues are intentionally distinct from the rose
-   accent: amber = needs-review, indigo = untagged. Ported from lib.jsx. */
+/* Trove — status badge. Status hues are intentionally distinct from the gold
+   action accent (and the red danger color): orange = needs-review, indigo =
+   untagged. Ported from lib.jsx. */
 import { Icon } from "./icon";
 
 export function Badge({ kind }: { kind: "needs_review" | "needs_tagging" }) {

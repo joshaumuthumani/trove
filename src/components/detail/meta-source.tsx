@@ -138,7 +138,7 @@ export function MetaSource({
         </label>
       </div>
       {error ? (
-        <div className="metasrc-hint" style={{ color: "var(--accent-2)" }}>
+        <div className="metasrc-hint" style={{ color: "var(--danger-2)" }}>
           {error}
         </div>
       ) : synced ? (
