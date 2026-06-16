@@ -14,7 +14,13 @@ export async function fetchTraktSeasons(ref: string): Promise<TraktSeason[]> {
   const { TRAKT_API_KEY } = await getEnv();
   if (!TRAKT_API_KEY) throw new Error("TRAKT_API_KEY is not configured");
   const res = await fetch(`https://api.trakt.tv/shows/${encodeURIComponent(ref)}/seasons?extended=full`, {
-    headers: { "trakt-api-version": "2", "trakt-api-key": TRAKT_API_KEY, "Content-Type": "application/json" },
+    headers: {
+      "trakt-api-version": "2",
+      "trakt-api-key": TRAKT_API_KEY,
+      "Content-Type": "application/json",
+      // Trakt is fronted by Cloudflare and can 403 requests with no UA.
+      "User-Agent": "Trove/1.0 (+https://github.com/joshaumuthumani/trove)",
+    },
   });
   if (!res.ok) throw new Error(`Trakt ${res.status}`);
   const d = (await res.json()) as { number: number; episode_count?: number; aired_episodes?: number }[];
