@@ -30,6 +30,17 @@ export function extractRawgRef(input: string): string | null {
   return ref && /^[A-Za-z0-9][A-Za-z0-9-]*$/.test(ref) ? ref : null;
 }
 
+/* Trakt show refs come from trakt.tv/shows/<slug> URLs (or a bare slug / Trakt /
+   IMDB id). Same shape as the RAWG extractor: pull the /shows/<ref> segment, else
+   a bare token, charset-validated. Pure. */
+export function extractTraktRef(input: string): string | null {
+  const s = (input || "").trim();
+  if (!s) return null;
+  const m = s.match(/\/shows\/([^/?#]+)/i);
+  const ref = m ? decodeURIComponent(m[1]) : s.split(/[?#]/)[0];
+  return ref && /^[A-Za-z0-9][A-Za-z0-9-]*$/.test(ref) ? ref : null;
+}
+
 const IMAGE_HOSTS = new Set(["image.tmdb.org", "media.rawg.io"]);
 
 /* Poster/cover URLs are persisted and later rendered into a raw <img src>, so

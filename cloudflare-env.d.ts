@@ -9,4 +9,6 @@ interface CloudflareEnv {
   TMDB_API_KEY?: string;
   /** RAWG API key — set in .dev.vars (local) / Pages secret (prod). */
   RAWG_API_KEY?: string;
+  /** Trakt app client_id — optional, powers on-demand season augmentation. */
+  TRAKT_API_KEY?: string;
 }

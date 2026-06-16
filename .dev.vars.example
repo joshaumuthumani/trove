@@ -7,3 +7,7 @@ TMDB_API_KEY=
 
 # RAWG API key — https://rawg.io/apidocs
 RAWG_API_KEY=
+
+# Trakt app client_id (optional) — https://trakt.tv/oauth/applications
+# Powers the on-demand "Augment seasons from Trakt" button on TV detail pages.
+TRAKT_API_KEY=

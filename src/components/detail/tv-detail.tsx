@@ -7,6 +7,7 @@ import { DetailShell } from "./detail-shell";
 import { DeleteConfirm } from "./delete-confirm";
 import { MetaSource, type SyncedMeta } from "./meta-source";
 import { SeasonGrid } from "./season-grid";
+import { TraktAugment } from "./trakt-augment";
 import { updateItem, deleteItem } from "@/lib/client-api";
 import { tvOwnedSeasons } from "@/lib/tv";
 import type { TVSeries, Season } from "@/lib/types";
@@ -122,6 +123,7 @@ export function TVDetail({ series }: { series: TVSeries }) {
             Seasons
             {series.note && !editing && <span className="ownblock-note">{series.note}</span>}
           </span>
+          {editing && <TraktAugment seasons={seasons} onApply={setSeasons} />}
           <SeasonGrid seasons={editing ? seasons : series.seasons} editable={editing} onChange={setSeasons} />
         </div>
       </DetailShell>

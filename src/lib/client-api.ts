@@ -54,3 +54,14 @@ export async function searchRawg(name: string): Promise<RawgCandidate[]> {
   const r = await json<{ results: RawgCandidate[] }>(await fetch(`/api/metadata/rawg?q=${encodeURIComponent(name)}`));
   return r.results;
 }
+
+export interface TraktSeason {
+  season: number;
+  episode_count: number;
+}
+export async function fetchTraktSeasons(ref: string): Promise<TraktSeason[]> {
+  const r = await json<{ results: TraktSeason[] }>(
+    await fetch(`/api/metadata/trakt/seasons?id=${encodeURIComponent(ref)}`)
+  );
+  return r.results;
+}
