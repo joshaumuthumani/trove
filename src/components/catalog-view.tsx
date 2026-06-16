@@ -66,7 +66,14 @@ export function CatalogView({
   const qs = useSearchParams().toString();
   const detailHref = (id: number) => `${cfg.route}/${id}${qs ? `?${qs}` : ""}`;
   // Flag in-app navigation so the detail "back" button can use history.back()
-  // and restore this exact filtered/sorted list rather than a reset one.
+  // and restore this exact filtered/sorted list rather than a reset one. Set it
+  // whenever a list is shown (covers Movies/TV/Games and arriving at a detail via
+  // global search), not only on a row click.
+  useEffect(() => {
+    try {
+      sessionStorage.setItem("trove:inapp", "1");
+    } catch {}
+  }, []);
   const markInApp = () => {
     try {
       sessionStorage.setItem("trove:inapp", "1");

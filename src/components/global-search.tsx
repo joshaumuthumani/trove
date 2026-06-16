@@ -53,6 +53,10 @@ export function GlobalSearch({ big }: { big?: boolean }) {
     (r: SearchResult) => {
       setOpen(false);
       setQ("");
+      // Mark in-app navigation so the detail "back" button uses history.back().
+      try {
+        sessionStorage.setItem("trove:inapp", "1");
+      } catch {}
       router.push(`/${ROUTE_FOR[r.type]}/${r.id}`);
     },
     [router]
