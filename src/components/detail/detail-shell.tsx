@@ -1,9 +1,9 @@
 "use client";
 /* Trove — detail hero shell (poster + kicker/title/meta + body + actions).
    Ported from detail.jsx DetailShell. */
-import type { ReactNode } from "react";
+import type { ReactNode, MouseEvent } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -45,13 +45,26 @@ export function DetailShell({
   onCancel: () => void;
 }) {
   const kicker = kind === "film" ? "Movie" : kind === "tv" ? "TV Series" : "Game";
-  // Preserve the list's filters/sort (carried in via the row link's query) so
-  // "back" returns to the same filtered/sorted catalog, not a reset list.
+  const router = useRouter();
+  // Preserve the list's filters/sort/search on "back". Reconstructing the URL
+  // from the query (carried in by the row link) is unreliable, so when we got
+  // here via in-app navigation we do a real history back() — that returns to the
+  // exact previous list URL with every filter intact. The href is the fallback
+  // for deep links / open-in-new-tab.
   const qs = useSearchParams().toString();
   const backTo = qs ? `${backHref}?${qs}` : backHref;
+  const onBack = (e: MouseEvent) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // keep new-tab/window
+    try {
+      if (sessionStorage.getItem("trove:inapp")) {
+        e.preventDefault();
+        router.back();
+      }
+    } catch {}
+  };
   return (
     <div className="detail">
-      <Link className="cat-back detail-back" href={backTo}>
+      <Link className="cat-back detail-back" href={backTo} onClick={onBack}>
         <Icon name="chevronLeft" size={16} />
         {backLabel}
       </Link>

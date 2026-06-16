@@ -65,6 +65,13 @@ export function CatalogView({
   // detail's "back" link can return to the same filtered/sorted list.
   const qs = useSearchParams().toString();
   const detailHref = (id: number) => `${cfg.route}/${id}${qs ? `?${qs}` : ""}`;
+  // Flag in-app navigation so the detail "back" button can use history.back()
+  // and restore this exact filtered/sorted list rather than a reset one.
+  const markInApp = () => {
+    try {
+      sessionStorage.setItem("trove:inapp", "1");
+    } catch {}
+  };
 
   const thumb = density === "compact" ? 34 : 46;
   const maxChips = density === "compact" ? 2 : 3;
@@ -115,7 +122,7 @@ export function CatalogView({
           </div>
           <div className="tbody">
             {rows.map((r) => (
-              <Link key={r.id} className="trow" href={detailHref(r.id)}>
+              <Link key={r.id} className="trow" href={detailHref(r.id)} onClick={markInApp}>
                 <span className="td td-thumb">
                   <PosterTile title={r.title} year={r.year} src={r.poster_url} size={thumb} rounded={6} ratio={cfg.ratio} kind={cfg.icon} />
                 </span>
