@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Hanken_Grotesk, JetBrains_Mono, Unbounded } from "next/font/google";
 import "./globals.css";
 import { TopBar } from "@/components/top-bar";
+import { ScrollRestoration } from "@/components/scroll-restoration";
 
 const sans = Hanken_Grotesk({
   variable: "--font-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
           <main className="main">
             <div className="main-inner">{children}</div>
           </main>
+          <ScrollRestoration />
         </div>
       </body>
     </html>
