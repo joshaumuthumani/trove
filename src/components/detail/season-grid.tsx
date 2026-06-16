@@ -171,7 +171,7 @@ export function SeasonGrid({
       )}
       <div className="seasongrid-rows">
         {seasons.map((s, i) => (
-          <SeasonRow key={s.season} s={s} editable={editable} onChange={(ns) => setSeason(i, ns)} />
+          <SeasonRow key={s.id ?? s.season} s={s} editable={editable} onChange={(ns) => setSeason(i, ns)} />
         ))}
       </div>
     </div>

@@ -2754,15 +2754,6 @@
     },
     {
       "series_id": 38,
-      "season": 1,
-      "episode_count": null,
-      "episodes": "all",
-      "owned_on": [
-        "Apple TV"
-      ]
-    },
-    {
-      "series_id": 38,
       "season": 2,
       "episode_count": null,
       "episodes": "all",
@@ -4143,15 +4134,6 @@
       "episodes": [
         1
       ],
-      "owned_on": [
-        "Apple TV"
-      ]
-    },
-    {
-      "series_id": 123,
-      "season": 2,
-      "episode_count": null,
-      "episodes": "all",
       "owned_on": [
         "Apple TV"
       ]
@@ -5715,34 +5697,7 @@
     },
     {
       "series_id": 227,
-      "season": 1,
-      "episode_count": null,
-      "episodes": "all",
-      "owned_on": [
-        "Apple TV"
-      ]
-    },
-    {
-      "series_id": 227,
       "season": 2,
-      "episode_count": null,
-      "episodes": "all",
-      "owned_on": [
-        "Apple TV"
-      ]
-    },
-    {
-      "series_id": 227,
-      "season": 2,
-      "episode_count": null,
-      "episodes": "all",
-      "owned_on": [
-        "Apple TV"
-      ]
-    },
-    {
-      "series_id": 227,
-      "season": 3,
       "episode_count": null,
       "episodes": "all",
       "owned_on": [

@@ -4,6 +4,7 @@
    initOpenNextCloudflareForDev() in next.config.ts). */
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Movie, TVSeries, Season, Game, SeasonEpisodes } from "./types";
+import { dedupeSeasons } from "./tv";
 
 export async function getEnv(): Promise<CloudflareEnv> {
   const { env } = await getCloudflareContext({ async: true });
@@ -118,7 +119,7 @@ export function mapSeries(r: SeriesRow, seasons: Season[]): TVSeries {
     overview: r.overview ?? null,
     note: r.note,
     needs_review: !!r.needs_review,
-    seasons: seasons.sort((a, b) => a.season - b.season),
+    seasons: dedupeSeasons(seasons),
     date_added: r.date_added,
   };
 }

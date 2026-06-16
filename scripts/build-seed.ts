@@ -52,7 +52,10 @@ D.tv.forEach((t) => {
     note: t.note ?? null,
     needs_review: 0,
   });
+  const seenSeasons = new Set<number>();
   t.seasons.forEach((s) => {
+    if (seenSeasons.has(s.season)) return; // prototype data lists some seasons twice
+    seenSeasons.add(s.season);
     tvSeasons.push({
       series_id: t.id,
       season: s.season,
