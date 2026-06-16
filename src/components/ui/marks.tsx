@@ -76,19 +76,34 @@ export function FormatBadge({
   );
 }
 
-export function LogoRow({ names, max, size = 22 }: { names: string[]; max?: number; size?: number }) {
+export function LogoRow({
+  names,
+  max,
+  size = 22,
+  counts,
+}: {
+  names: string[];
+  max?: number;
+  size?: number;
+  counts?: Record<string, number>; // when set, show this number beside each logo (e.g. owned episodes)
+}) {
   if (!names || names.length === 0) return <span className="chips-none">—</span>;
   const shown = max ? names.slice(0, max) : names;
   const extra = names.length - shown.length;
   return (
     <div className="logorow">
-      {shown.map((n, i) =>
-        isPhysical(n) ? (
-          <FormatBadge key={n + i} name={n} small />
-        ) : (
-          <ServiceMark key={n + i} name={n} size={size} />
-        )
-      )}
+      {shown.map((n, i) => {
+        if (counts) {
+          const c = counts[n] ?? 0;
+          return (
+            <span key={n + i} className="logocount" title={`${c} episode${c === 1 ? "" : "s"} on ${n}`}>
+              {isPhysical(n) ? <FormatBadge name={n} small /> : <ServiceMark name={n} size={size} />}
+              <span className="logocount-n">{c}</span>
+            </span>
+          );
+        }
+        return isPhysical(n) ? <FormatBadge key={n + i} name={n} small /> : <ServiceMark key={n + i} name={n} size={size} />;
+      })}
       {extra > 0 && <span className="chip-more">+{extra}</span>}
     </div>
   );

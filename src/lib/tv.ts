@@ -11,6 +11,28 @@ export function tvPlatforms(t: TVSeries): string[] {
   return [...set];
 }
 
+/** Episodes owned in a season: full count for "all", list length for a partial
+    selection, 0 for "unowned". */
+export function ownedEpisodeCount(s: { episodes: TVSeries["seasons"][number]["episodes"]; episode_count: number }): number {
+  if (s.episodes === "all") return s.episode_count;
+  if (s.episodes === "unowned") return 0;
+  return Array.isArray(s.episodes) ? s.episodes.length : 0;
+}
+
+/** Total owned episodes per provider across a series' seasons — a season owned on
+    several providers contributes its owned-episode count to each. */
+export function tvProviderEpisodeCounts(t: TVSeries): Record<string, number> {
+  const counts: Record<string, number> = {};
+  t.seasons.forEach((s) => {
+    const n = ownedEpisodeCount(s);
+    if (n <= 0) return;
+    (s.owned_on || []).forEach((p) => {
+      counts[p] = (counts[p] || 0) + n;
+    });
+  });
+  return counts;
+}
+
 export function tvCompleteness(t: TVSeries): "partial" | "complete" {
   const owned = tvOwnedSeasons(t);
   const partialEps = owned.some((s) => Array.isArray(s.episodes));

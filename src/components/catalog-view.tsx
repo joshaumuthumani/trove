@@ -22,6 +22,7 @@ export interface DisplayRow {
   year: number | null;
   poster_url: string | null;
   chips: string[]; // movies/tv: owned-on names
+  chipCounts?: Record<string, number>; // tv: owned episodes per provider
   director?: string | null; // movies/tv only
   user_score?: number | null; // movies/tv only (0–10)
   seasons?: number;
@@ -149,7 +150,7 @@ export function CatalogView({
                 )}
                 {catalog !== "games" && (
                   <span className="td td-own">
-                    <LogoRow names={r.chips} max={maxChips} size={22} />
+                    <LogoRow names={r.chips} max={maxChips} size={22} counts={catalog === "tv" ? r.chipCounts : undefined} />
                   </span>
                 )}
                 {catalog === "games" && (
@@ -169,6 +170,11 @@ export function CatalogView({
           </div>
         </div>
       )}
+
+      {/* Floating Add — always reachable without scrolling back to the header. */}
+      <Link className="cat-fab" href={`${cfg.route}/new`} aria-label={`Add ${cfg.name}`} title={`Add ${cfg.name}`}>
+        <Icon name="plus" size={24} />
+      </Link>
     </div>
   );
 }

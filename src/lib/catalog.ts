@@ -1,7 +1,7 @@
 /* Trove — catalog list view-models + filter/sort/search (ported from catalog.jsx).
    Pure functions shared by the server catalog pages. State comes from the URL. */
 import type { Catalog, Movie, TVSeries, Game } from "./types";
-import { tvOwnedSeasons, tvPlatforms, tvCompleteness } from "./tv";
+import { tvOwnedSeasons, tvPlatforms, tvCompleteness, tvProviderEpisodeCounts } from "./tv";
 
 export interface CatalogParams {
   q?: string;
@@ -67,6 +67,7 @@ export interface TVRowVM {
   seasons: number;
   owned: number;
   chips: string[];
+  chipCounts: Record<string, number>; // provider -> owned episodes
   completeness: "partial" | "complete";
 }
 export interface GameRowVM {
@@ -131,6 +132,7 @@ export function buildTVRows(tv: TVSeries[], p: CatalogParams): TVRowVM[] {
     seasons: t.seasons.length,
     owned: tvOwnedSeasons(t).length,
     chips: tvPlatforms(t),
+    chipCounts: tvProviderEpisodeCounts(t),
     completeness: tvCompleteness(t),
   }));
   if (p.q?.trim()) {
