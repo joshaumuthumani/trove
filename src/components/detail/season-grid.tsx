@@ -43,8 +43,9 @@ function SeasonRow({ s, editable, onChange, onRemove }: { s: Season; editable: b
   const plats = s.owned_on || [];
   const setOwned = (v: boolean) =>
     onChange({ ...s, episodes: v ? "all" : "unowned", owned_on: v ? s.owned_on : [] });
-  const setMode = (mode: string) =>
-    onChange({ ...s, episodes: mode === "specific" ? Array.from({ length: s.episode_count }, (_, i) => i + 1) : "all" });
+  // "Specific" starts empty — selecting the few you own is easier than
+  // deselecting many. (An empty list still counts as owned / in specific mode.)
+  const setMode = (mode: string) => onChange({ ...s, episodes: mode === "specific" ? [] : "all" });
   const toggleEp = (n: number) => {
     const a = Array.isArray(s.episodes) ? s.episodes : [];
     onChange({ ...s, episodes: a.includes(n) ? a.filter((x) => x !== n) : [...a, n].sort((x, y) => x - y) });
