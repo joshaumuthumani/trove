@@ -78,6 +78,12 @@ export interface GameRowVM {
   badge: "needs_tagging" | null;
 }
 
+// Sort key that ignores a leading article (A / An / The), the way most catalogs
+// alphabetize — "The Matrix" sorts under M. Display titles are unaffected.
+function titleSortKey(title: string): string {
+  return (title || "").trim().toLowerCase().replace(/^(the|an|a)\s+/, "");
+}
+
 function applySort<T extends { title: string; year: number | null; id: number }>(
   rows: T[],
   sort: string,
@@ -97,8 +103,8 @@ function applySort<T extends { title: string; year: number | null; id: number }>
       av = a.id;
       bv = b.id;
     } else {
-      av = a.title.toLowerCase();
-      bv = b.title.toLowerCase();
+      av = titleSortKey(a.title);
+      bv = titleSortKey(b.title);
     }
     return av < bv ? -dir : av > bv ? dir : 0;
   });
@@ -147,8 +153,8 @@ export function buildTVRows(tv: TVSeries[], p: CatalogParams): TVRowVM[] {
   return [...rows].sort((a, b) => {
     if (sort === "seasons") return a.seasons < b.seasons ? -dir : a.seasons > b.seasons ? dir : 0;
     if (sort === "year") return (a.year || 0) < (b.year || 0) ? -dir : (a.year || 0) > (b.year || 0) ? dir : 0;
-    const av = a.title.toLowerCase(),
-      bv = b.title.toLowerCase();
+    const av = titleSortKey(a.title),
+      bv = titleSortKey(b.title);
     return av < bv ? -dir : av > bv ? dir : 0;
   });
 }
@@ -177,8 +183,8 @@ export function buildGameRows(games: Game[], p: CatalogParams): GameRowVM[] {
       return av < bv ? -dir : av > bv ? dir : 0;
     }
     if (sort === "year") return (a.year || 0) < (b.year || 0) ? -dir : (a.year || 0) > (b.year || 0) ? dir : 0;
-    const av = a.title.toLowerCase(),
-      bv = b.title.toLowerCase();
+    const av = titleSortKey(a.title),
+      bv = titleSortKey(b.title);
     return av < bv ? -dir : av > bv ? dir : 0;
   });
   // Untagged games float to top regardless of sort when not explicitly filtering.
