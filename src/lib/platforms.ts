@@ -39,7 +39,7 @@ export const MOVIE_DIGITAL = [
   "YouTube",
 ];
 export const MOVIE_PHYSICAL = ["Ultra HD Blu-ray", "Blu-Ray", "DVD"];
-export const TV_PLATFORMS = ["Apple TV", "Amazon Video"];
+export const TV_PLATFORMS = ["Apple TV", "Amazon Video", "YouTube"];
 
 export const MOVIES_ANYWHERE = "Movies Anywhere";
 
