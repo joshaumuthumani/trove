@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createTV, type TVInput } from "@/lib/mutations";
 import { safeImageUrl } from "@/lib/ids";
-import { filterKnown, TV_PLATFORMS } from "@/lib/platforms";
+import { TV_PLATFORMS } from "@/lib/platforms";
 import { sameOrigin } from "@/lib/guard";
 import { toText, toScore } from "../movies/route";
-import type { Season, SeasonEpisodes } from "@/lib/types";
+import type { Season, SeasonHolding, OwnedEpisodes } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -14,16 +14,25 @@ const toNum = (v: unknown): number | null => {
   return Number.isFinite(n) ? n : null;
 };
 
+// Keep only known platforms; clamp specific episode picks to 1..episode_count.
+function toHolding(h: Record<string, unknown>, episodeCount: number): SeasonHolding | null {
+  const platform = String(h?.platform || "");
+  if (!TV_PLATFORMS.includes(platform)) return null;
+  let episodes: OwnedEpisodes = "all";
+  if (Array.isArray(h.episodes)) {
+    episodes = (h.episodes as unknown[]).map(Number).filter((n) => Number.isFinite(n) && n >= 1 && n <= episodeCount);
+  }
+  return { platform, episodes };
+}
+
 function toSeason(s: Record<string, unknown>): Season {
-  let episodes: SeasonEpisodes;
-  if (Array.isArray(s.episodes)) episodes = (s.episodes as number[]).map(Number);
-  else episodes = s.episodes === "all" ? "all" : "unowned";
-  return {
-    season: Number(s.season),
-    episode_count: Number(s.episode_count) || 0,
-    episodes,
-    owned_on: filterKnown(s.owned_on, TV_PLATFORMS),
-  };
+  const episode_count = Number(s.episode_count) || 0;
+  const owned_on = Array.isArray(s.owned_on)
+    ? (s.owned_on as Record<string, unknown>[])
+        .map((h) => toHolding(h, episode_count))
+        .filter((h): h is SeasonHolding => !!h)
+    : [];
+  return { season: Number(s.season), episode_count, owned: !!s.owned || owned_on.length > 0, owned_on };
 }
 
 export function toTVInput(b: Record<string, unknown>): TVInput {

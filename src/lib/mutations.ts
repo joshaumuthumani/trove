@@ -1,10 +1,9 @@
 /* Trove — D1 write helpers (create / update / delete). Used by route handlers. */
 import "server-only";
 import { getDb } from "./db";
-import type { Season, GamePlatform, SeasonEpisodes } from "./types";
+import type { Season, GamePlatform } from "./types";
 
 const arr = (a: unknown) => JSON.stringify(Array.isArray(a) ? a : []);
-const eps = (e: SeasonEpisodes) => (Array.isArray(e) ? JSON.stringify(e) : e);
 
 // ---- movies --------------------------------------------------------------
 export interface MovieInput {
@@ -54,14 +53,14 @@ export interface TVInput {
   seasons: Season[];
 }
 
-async function insertSeasons(db: D1Database, seriesId: number, seasons: Season[]): Promise<void> {
-  if (!seasons.length) return;
-  const stmts = seasons.map((s) =>
+// `episodes` column now just records season-level ownership ("all"/"unowned");
+// per-platform episode detail lives in owned_on as [{platform, episodes}].
+function seasonStmts(db: D1Database, seriesId: number, seasons: Season[]) {
+  return seasons.map((s) =>
     db
       .prepare("INSERT INTO tv_seasons (series_id,season,episode_count,episodes,owned_on) VALUES (?,?,?,?,?)")
-      .bind(seriesId, s.season, s.episode_count, eps(s.episodes), arr(s.owned_on))
+      .bind(seriesId, s.season, s.episode_count, s.owned ? "all" : "unowned", arr(s.owned_on))
   );
-  await db.batch(stmts);
 }
 
 export async function createTV(t: TVInput): Promise<number> {
@@ -71,19 +70,21 @@ export async function createTV(t: TVInput): Promise<number> {
     .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.director, t.user_score, t.overview, t.note)
     .run();
   const id = Number(res.meta.last_row_id);
-  await insertSeasons(db, id, t.seasons);
+  const stmts = seasonStmts(db, id, t.seasons);
+  if (stmts.length) await db.batch(stmts);
   return id;
 }
 
 export async function updateTV(id: number, t: TVInput): Promise<void> {
   const db = await getDb();
-  await db
-    .prepare("UPDATE tv_series SET tmdb_id=?,series=?,year=?,poster_url=?,director=?,user_score=?,overview=?,note=? WHERE id=?")
-    .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.director, t.user_score, t.overview, t.note, id)
-    .run();
-  // Replace seasons wholesale (small N): clear then reinsert.
-  await db.prepare("DELETE FROM tv_seasons WHERE series_id=?").bind(id).run();
-  await insertSeasons(db, id, t.seasons);
+  // One batch = one transaction, so the season replace can't half-apply.
+  await db.batch([
+    db
+      .prepare("UPDATE tv_series SET tmdb_id=?,series=?,year=?,poster_url=?,director=?,user_score=?,overview=?,note=? WHERE id=?")
+      .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.director, t.user_score, t.overview, t.note, id),
+    db.prepare("DELETE FROM tv_seasons WHERE series_id=?").bind(id),
+    ...seasonStmts(db, id, t.seasons),
+  ]);
 }
 
 // ---- games ----------------------------------------------------------------

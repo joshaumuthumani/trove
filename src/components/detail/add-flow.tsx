@@ -74,7 +74,7 @@ export function AddFlow({ catalog }: { catalog: Catalog }) {
             (m.seasons || []).map((s) => ({
               season: s.season,
               episode_count: s.episode_count,
-              episodes: "all",
+              owned: true,
               owned_on: [],
             }))
           );

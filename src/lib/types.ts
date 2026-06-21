@@ -17,16 +17,23 @@ export interface Movie {
   date_added?: string;
 }
 
-/** A season's episode ownership: "all", "unowned", or a list of owned ep numbers. */
-export type SeasonEpisodes = "all" | "unowned" | number[];
+/** Episodes owned on a given platform: "all" of the season, or specific numbers. */
+export type OwnedEpisodes = "all" | number[];
+
+/** A platform a season is owned on, with which episodes are owned there. Lets a
+    season be owned differently per platform (e.g. all on Apple TV, pilot on YT). */
+export interface SeasonHolding {
+  platform: string;
+  episodes: OwnedEpisodes;
+}
 
 export interface Season {
   id?: number;
   series_id?: number;
   season: number;
   episode_count: number;
-  episodes: SeasonEpisodes;
-  owned_on: string[]; // a season may be owned on several TV platforms
+  owned: boolean; // owned at all — may be true with no holdings ("source unspecified")
+  owned_on: SeasonHolding[]; // per-platform holdings; [] when unowned or source-unspecified
 }
 
 export interface TVSeries {

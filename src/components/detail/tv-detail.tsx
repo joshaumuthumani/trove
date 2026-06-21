@@ -15,7 +15,7 @@ import type { TVSeries, Season } from "@/lib/types";
 export function TVDetail({ series }: { series: TVSeries }) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
-  const [seasons, setSeasons] = useState<Season[]>(series.seasons.map((s) => ({ ...s, owned_on: [...s.owned_on] })));
+  const [seasons, setSeasons] = useState<Season[]>(series.seasons.map((s) => ({ ...s, owned_on: s.owned_on.map((h) => ({ ...h })) })));
   const [title, setTitle] = useState(series.series);
   const [year, setYear] = useState<number | null>(series.year);
   const [poster, setPoster] = useState<string | null>(series.poster_url);
@@ -28,7 +28,7 @@ export function TVDetail({ series }: { series: TVSeries }) {
   const owned = tvOwnedSeasons(series).length;
 
   const reset = () => {
-    setSeasons(series.seasons.map((s) => ({ ...s, owned_on: [...s.owned_on] })));
+    setSeasons(series.seasons.map((s) => ({ ...s, owned_on: s.owned_on.map((h) => ({ ...h })) })));
     setTitle(series.series);
     setYear(series.year);
     setPoster(series.poster_url);
@@ -50,8 +50,15 @@ export function TVDetail({ series }: { series: TVSeries }) {
       const next: Season[] = m.seasons.map((fs) => {
         const cur = seasons.find((s) => s.season === fs.season);
         return cur
-          ? { ...cur, episode_count: fs.episode_count }
-          : { season: fs.season, episode_count: fs.episode_count, episodes: "unowned", owned_on: [] };
+          ? {
+              ...cur,
+              episode_count: fs.episode_count,
+              owned_on: cur.owned_on.map((h) => ({
+                ...h,
+                episodes: Array.isArray(h.episodes) ? h.episodes.filter((x) => x <= fs.episode_count) : h.episodes,
+              })),
+            }
+          : { season: fs.season, episode_count: fs.episode_count, owned: false, owned_on: [] };
       });
       setSeasons(next.sort((a, b) => a.season - b.season));
     }

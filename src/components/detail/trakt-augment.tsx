@@ -68,17 +68,23 @@ export function TraktAugment({ seasons, onApply }: { seasons: Season[]; onApply:
 
   const apply = () => {
     if (!proposals) return;
-    const byNum = new Map<number, Season>(seasons.map((s) => [s.season, { ...s, owned_on: [...(s.owned_on || [])] }]));
+    const byNum = new Map<number, Season>(seasons.map((s) => [s.season, { ...s, owned_on: s.owned_on.map((h) => ({ ...h })) }]));
     for (const p of proposals) {
       if (!picked.has(p.season)) continue;
       if (p.kind === "add") {
-        byNum.set(p.season, { season: p.season, episode_count: p.episode_count, episodes: "unowned", owned_on: [] });
+        byNum.set(p.season, { season: p.season, episode_count: p.episode_count, owned: false, owned_on: [] });
       } else {
         const cur = byNum.get(p.season);
         if (cur) {
-          // Keep ownership; only clamp a "specific" picklist to the new count.
-          const episodes = Array.isArray(cur.episodes) ? cur.episodes.filter((x) => x <= p.episode_count) : cur.episodes;
-          byNum.set(p.season, { ...cur, episode_count: p.episode_count, episodes });
+          // Keep ownership; only clamp any per-platform "specific" picks to the new count.
+          byNum.set(p.season, {
+            ...cur,
+            episode_count: p.episode_count,
+            owned_on: cur.owned_on.map((h) => ({
+              ...h,
+              episodes: Array.isArray(h.episodes) ? h.episodes.filter((x) => x <= p.episode_count) : h.episodes,
+            })),
+          });
         }
       }
     }
