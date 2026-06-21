@@ -3,6 +3,7 @@ import { createGame, type GameInput } from "@/lib/mutations";
 import { safeImageUrl } from "@/lib/ids";
 import { GAME_SERVICES, GAME_FORMATS } from "@/lib/platforms";
 import { sameOrigin } from "@/lib/guard";
+import { toText } from "../movies/route";
 import type { GamePlatform } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +24,7 @@ export function toGameInput(b: Record<string, unknown>): GameInput {
     : [];
   return {
     rawg_id: toNum(b.rawg_id),
-    title: String(b.title || "").trim() || "Untitled",
+    title: toText(b.title, 200) ?? "Untitled",
     year: toNum(b.year),
     cover_url: safeImageUrl(b.cover_url),
     platforms,

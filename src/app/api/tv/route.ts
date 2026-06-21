@@ -38,7 +38,7 @@ function toSeason(s: Record<string, unknown>): Season {
 export function toTVInput(b: Record<string, unknown>): TVInput {
   return {
     tmdb_id: toNum(b.tmdb_id),
-    series: String(b.series || b.title || "").trim() || "Untitled",
+    series: toText((b.series as string) || (b.title as string), 200) ?? "Untitled",
     year: toNum(b.year),
     poster_url: safeImageUrl(b.poster_url),
     director: toText(b.director, 300),

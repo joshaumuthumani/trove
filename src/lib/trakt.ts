@@ -22,10 +22,7 @@ export async function fetchTraktSeasons(ref: string): Promise<TraktSeason[]> {
       "User-Agent": "Trove/1.0 (+https://github.com/joshaumuthumani/trove)",
     },
   });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`Trakt ${res.status}${body ? `: ${body.slice(0, 200)}` : ""}`);
-  }
+  if (!res.ok) throw new Error(`Trakt ${res.status}`);
   const d = (await res.json()) as { number: number; episode_count?: number; aired_episodes?: number }[];
   return (d || [])
     .filter((s) => s.number >= 1) // drop Specials (season 0)

@@ -29,7 +29,7 @@ export const toScore = (v: unknown): number | null => {
 export function toMovieInput(b: Record<string, unknown>): MovieInput {
   return {
     tmdb_id: toNum(b.tmdb_id),
-    title: String(b.title || "").trim() || "Untitled",
+    title: toText(b.title, 200) ?? "Untitled",
     year: toNum(b.year),
     poster_url: safeImageUrl(b.poster_url),
     director: toText(b.director, 300),

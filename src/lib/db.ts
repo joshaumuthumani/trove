@@ -2,6 +2,7 @@
    Reads run from RSC; writes from route handlers. Both resolve the binding via
    getCloudflareContext() (works under `next dev` thanks to
    initOpenNextCloudflareForDev() in next.config.ts). */
+import "server-only";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Movie, TVSeries, Season, Game } from "./types";
 import { dedupeSeasons, seasonFromStored } from "./tv";

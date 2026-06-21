@@ -18,11 +18,10 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "TRAKT_API_KEY is not set on the server (add it as an encrypted Secret)." }, { status: 500 });
     }
     const code = m.match(/Trakt (\d+)/)?.[1];
-    const detail = m.replace(/^Trakt \d+:?\s*/, "").slice(0, 200);
     return NextResponse.json(
       {
         error: code
-          ? `Trakt HTTP ${code}${detail && detail !== m ? ` — ${detail}` : code === "403" ? " — invalid Client ID or blocked request." : "."}`
+          ? `Trakt request failed (HTTP ${code})${code === "401" || code === "403" ? " — check the Client ID." : code === "404" ? " — show not found for that slug." : "."}`
           : "Upstream metadata request failed.",
       },
       { status: 502 }
