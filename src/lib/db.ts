@@ -3,8 +3,8 @@
    getCloudflareContext() (works under `next dev` thanks to
    initOpenNextCloudflareForDev() in next.config.ts). */
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import type { Movie, TVSeries, Season, SeasonHolding, OwnedEpisodes, Game } from "./types";
-import { dedupeSeasons } from "./tv";
+import type { Movie, TVSeries, Season, Game } from "./types";
+import { dedupeSeasons, seasonFromStored } from "./tv";
 
 export async function getEnv(): Promise<CloudflareEnv> {
   const { env } = await getCloudflareContext({ async: true });
@@ -90,30 +90,9 @@ export function mapMovie(r: MovieRow): Movie {
   };
 }
 
-const normEpisodes = (e: unknown): OwnedEpisodes =>
-  Array.isArray(e) ? (e as unknown[]).map(Number).filter((n) => Number.isFinite(n) && n >= 1) : "all";
-
-// Up-convert both shapes to per-platform holdings:
-//  - new: owned_on is [{platform, episodes}]
-//  - old: owned_on is ["Apple TV", ...] + a season-level `episodes` column, so
-//    every platform inherits that episode set. Keeps existing rows working with
-//    no destructive migration; new shape is written on the next save.
+// Up-convert handled by the pure seasonFromStored() in tv.ts (also unit-tested).
 export function mapSeason(r: SeasonRow): Season {
-  const owned = r.episodes !== "unowned";
-  const raw = parseJsonArr<unknown>(r.owned_on);
-  let owned_on: SeasonHolding[] = [];
-  if (raw.length && typeof raw[0] === "object" && raw[0] !== null) {
-    owned_on = (raw as { platform?: unknown; episodes?: unknown }[])
-      .filter((h) => h && typeof h.platform === "string" && h.platform)
-      .map((h) => ({ platform: h.platform as string, episodes: normEpisodes(h.episodes) }));
-  } else {
-    const seasonEps: OwnedEpisodes =
-      r.episodes === "all" || r.episodes === "unowned" ? "all" : normEpisodes(parseJsonArr<number>(r.episodes));
-    owned_on = (raw as unknown[])
-      .filter((p): p is string => typeof p === "string" && !!p)
-      .map((p) => ({ platform: p, episodes: seasonEps }));
-  }
-  return { id: r.id, series_id: r.series_id, season: r.season, episode_count: r.episode_count, owned, owned_on };
+  return seasonFromStored(r);
 }
 
 export function mapSeries(r: SeriesRow, seasons: Season[]): TVSeries {

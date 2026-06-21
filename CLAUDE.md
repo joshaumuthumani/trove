@@ -40,4 +40,7 @@
   pulls the id from `/movie|tv/<id>-slug`) and `extractRawgRef()` (RAWG, slug or
   id, charset-validated) in `src/lib/ids.ts`. Games are discovered by **name** via
   RAWG (`searchRawgGames`) with a results picker; TMDB is id-based.
-- Run `npm run lint` and `npx tsc --noEmit` before committing.
+- Run `npm run lint`, `npx tsc --noEmit`, and `npm test` before committing. Tests
+  are Node's built-in runner via `tsx` (`src/lib/*.test.ts`) covering the pure
+  logic — id/slug/url extraction, platform vocab, the season up-convert
+  (`seasonFromStored`) + holdings dedupe/counts, and catalog sort/filter.

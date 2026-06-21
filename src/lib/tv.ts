@@ -1,6 +1,50 @@
 /* Trove — TV derived helpers (ported from catalog.jsx). */
 import type { TVSeries, Season, SeasonHolding, OwnedEpisodes } from "./types";
 
+function jsonArr(s: unknown): unknown[] {
+  if (Array.isArray(s)) return s;
+  try {
+    const v = JSON.parse((s as string) || "[]");
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
+
+const normEpisodes = (e: unknown): OwnedEpisodes =>
+  Array.isArray(e) ? (e as unknown[]).map(Number).filter((n) => Number.isFinite(n) && n >= 1) : "all";
+
+/** Raw tv_seasons row (D1). `episodes` is "all"/"unowned"/JSON array; `owned_on`
+    is JSON — either the new [{platform,episodes}] or the legacy [platform...]. */
+export interface StoredSeasonRow {
+  id?: number;
+  series_id?: number;
+  season: number;
+  episode_count: number;
+  episodes: string;
+  owned_on: string;
+}
+
+/** Pure up-convert from a stored row to the per-platform model. Handles both the
+    new holdings shape and the legacy (platform list + season-level episodes). */
+export function seasonFromStored(r: StoredSeasonRow): Season {
+  const owned = r.episodes !== "unowned";
+  const raw = jsonArr(r.owned_on);
+  let owned_on: SeasonHolding[] = [];
+  if (raw.length && typeof raw[0] === "object" && raw[0] !== null) {
+    owned_on = (raw as { platform?: unknown; episodes?: unknown }[])
+      .filter((h) => h && typeof h.platform === "string" && h.platform)
+      .map((h) => ({ platform: h.platform as string, episodes: normEpisodes(h.episodes) }));
+  } else {
+    const seasonEps: OwnedEpisodes =
+      r.episodes === "all" || r.episodes === "unowned" ? "all" : normEpisodes(jsonArr(r.episodes));
+    owned_on = (raw as unknown[])
+      .filter((p): p is string => typeof p === "string" && !!p)
+      .map((p) => ({ platform: p, episodes: seasonEps }));
+  }
+  return { id: r.id, series_id: r.series_id, season: r.season, episode_count: r.episode_count, owned, owned_on };
+}
+
 function mergeEpisodes(a: OwnedEpisodes, b: OwnedEpisodes): OwnedEpisodes {
   if (a === "all" || b === "all") return "all";
   return Array.from(new Set([...a, ...b])).sort((x, y) => x - y);

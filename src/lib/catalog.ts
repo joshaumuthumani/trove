@@ -80,7 +80,7 @@ export interface GameRowVM {
 
 // Sort key that ignores a leading article (A / An / The), the way most catalogs
 // alphabetize — "The Matrix" sorts under M. Display titles are unaffected.
-function titleSortKey(title: string): string {
+export function titleSortKey(title: string): string {
   return (title || "").trim().toLowerCase().replace(/^(the|an|a)\s+/, "");
 }
 

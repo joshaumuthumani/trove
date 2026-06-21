@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "node --import tsx --test src/lib/*.test.ts",
     "build:seed": "tsx scripts/build-seed.ts",
     "db:reset:local": "wrangler d1 execute trove --local --file=db/migrations/0001_init.sql",
     "db:seed:local": "tsx scripts/seed.ts --local",
