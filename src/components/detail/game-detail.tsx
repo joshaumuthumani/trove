@@ -83,7 +83,7 @@ export function GameDetail({ game }: { game: Game }) {
               </div>
             )}
             <MetaSource
-              source={{ label: "RAWG", ph: "e.g. 28568 or rawg.io/games/elden-ring", type: "game" }}
+              source={{ label: "IGDB", ph: "", type: "game" }}
               idValue={rawgId}
               onId={setRawgId}
               title={title}

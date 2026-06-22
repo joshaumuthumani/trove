@@ -1,13 +1,13 @@
 "use client";
-/* Trove — paste-an-ID metadata editor. Title override + {TMDB|RAWG} id/URL with
-   a real Re-fetch that pulls fresh title/year/art. Ported from detail.jsx
-   MetaSource (the prototype's Re-fetch was simulated; here it hits the API). */
+/* Trove — metadata editor. Movies/TV: paste a TMDB id/URL and Re-fetch. Games:
+   search IGDB by name and pick (IGDB has proper box-art; RAWG only had key-art).
+   Ported from detail.jsx MetaSource; the prototype's Re-fetch was simulated. */
 import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import { extractMediaId, extractRawgRef } from "@/lib/ids";
-import { fetchTmdb, fetchRawg, searchRawg, type RawgCandidate } from "@/lib/client-api";
-import { RawgPicker } from "./rawg-picker";
+import { extractMediaId } from "@/lib/ids";
+import { fetchTmdb, searchIgdb, type IgdbCandidate } from "@/lib/client-api";
+import { GamePicker } from "./game-picker";
 
 export interface SyncedMeta {
   title: string;
@@ -27,7 +27,7 @@ export function MetaSource({
   onTitle,
   onSynced,
 }: {
-  source: { label: "TMDB" | "RAWG"; ph: string; type: "movie" | "tv" | "game" };
+  source: { label: "TMDB" | "IGDB"; ph: string; type: "movie" | "tv" | "game" };
   idValue: string;
   onId: (v: string) => void;
   title: string;
@@ -37,18 +37,17 @@ export function MetaSource({
   const [synced, setSynced] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [candidates, setCandidates] = useState<RawgCandidate[] | null>(null);
+  const [candidates, setCandidates] = useState<IgdbCandidate[] | null>(null);
 
   const isGame = source.type === "game";
 
   const onPaste = (v: string) => {
-    const ref = isGame ? extractRawgRef(v) : extractMediaId(v);
-    onId(ref || v);
+    onId(extractMediaId(v) || v); // movies/tv only — games search by name
     setSynced(false);
     setError(null);
   };
 
-  const apply = (c: RawgCandidate) => {
+  const apply = (c: IgdbCandidate) => {
     onId(String(c.id));
     onSynced?.({ title: c.title, year: c.year, poster_url: c.cover_url });
     setSynced(true);
@@ -57,18 +56,16 @@ export function MetaSource({
 
   const refetch = async () => {
     setError(null);
-    // Games: RAWG has no paste-able id, so with no explicit id we search by name
-    // and let the user confirm when there are several matches.
-    if (isGame && !idValue.trim()) {
+    if (source.type === "game") {
       const q = title.trim();
       if (!q) {
-        setError("Enter a game name first, then Re-fetch to search RAWG.");
+        setError("Enter a game name first, then Search IGDB.");
         return;
       }
       setLoading(true);
       try {
-        const results = await searchRawg(q);
-        if (results.length === 0) setError(`No RAWG match for “${q}”.`);
+        const results = await searchIgdb(q);
+        if (results.length === 0) setError(`No IGDB match for “${q}”.`);
         else if (results.length === 1) apply(results[0]);
         else setCandidates(results);
       } catch (e) {
@@ -81,21 +78,16 @@ export function MetaSource({
     if (!idValue) return;
     setLoading(true);
     try {
-      if (source.type === "game") {
-        const m = await fetchRawg(idValue);
-        onSynced?.({ title: m.title, year: m.year, poster_url: m.cover_url });
-      } else {
-        const m = await fetchTmdb(idValue, source.type);
-        onSynced?.({
-          title: m.title,
-          year: m.year,
-          poster_url: m.poster_url,
-          director: m.director,
-          user_score: m.user_score,
-          overview: m.overview,
-          seasons: m.seasons,
-        });
-      }
+      const m = await fetchTmdb(idValue, source.type);
+      onSynced?.({
+        title: m.title,
+        year: m.year,
+        poster_url: m.poster_url,
+        director: m.director,
+        user_score: m.user_score,
+        overview: m.overview,
+        seasons: m.seasons,
+      });
       setSynced(true);
     } catch (e) {
       setError((e as Error).message);
@@ -103,8 +95,6 @@ export function MetaSource({
       setLoading(false);
     }
   };
-
-  const canFetch = isGame ? !!idValue.trim() || !!title.trim() : !!idValue;
 
   return (
     <div className="metasrc">
@@ -121,21 +111,26 @@ export function MetaSource({
             placeholder="Title"
           />
         </label>
-        <label className="metasrc-field">
-          <span className="metasrc-k">{source.label} ID or URL</span>
-          <div className="metasrc-idrow">
-            <input className="mono" value={idValue} onChange={(e) => onPaste(e.target.value)} placeholder={source.ph} />
-            <Button
-              size="sm"
-              variant="default"
-              icon={isGame && !idValue.trim() ? "search" : "download"}
-              onClick={refetch}
-              disabled={!canFetch || loading}
-            >
-              {loading ? "Fetching…" : isGame && !idValue.trim() ? "Search" : "Re-fetch"}
-            </Button>
+        {isGame ? (
+          <div className="metasrc-field">
+            <span className="metasrc-k">Cover &amp; details</span>
+            <div className="metasrc-idrow">
+              <Button size="sm" variant="default" icon="search" onClick={refetch} disabled={!title.trim() || loading}>
+                {loading ? "Searching…" : "Search IGDB"}
+              </Button>
+            </div>
           </div>
-        </label>
+        ) : (
+          <label className="metasrc-field">
+            <span className="metasrc-k">{source.label} ID or URL</span>
+            <div className="metasrc-idrow">
+              <input className="mono" value={idValue} onChange={(e) => onPaste(e.target.value)} placeholder={source.ph} />
+              <Button size="sm" variant="default" icon="download" onClick={refetch} disabled={!idValue || loading}>
+                {loading ? "Fetching…" : "Re-fetch"}
+              </Button>
+            </div>
+          </label>
+        )}
       </div>
       {error ? (
         <div className="metasrc-hint" style={{ color: "var(--danger-2)" }}>
@@ -149,17 +144,12 @@ export function MetaSource({
       ) : (
         <div className="metasrc-hint">
           {isGame
-            ? "Set the title and Search RAWG by name, or paste a RAWG id/URL to re-pull metadata & cover art."
+            ? "Search IGDB by the title to pull box-art, year & details."
             : "Paste a new " + source.label + " link or ID to re-pull metadata & cover art."}
         </div>
       )}
       {candidates && (
-        <RawgPicker
-          query={title.trim()}
-          results={candidates}
-          onPick={apply}
-          onCancel={() => setCandidates(null)}
-        />
+        <GamePicker query={title.trim()} results={candidates} onPick={apply} onCancel={() => setCandidates(null)} />
       )}
     </div>
   );

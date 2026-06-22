@@ -1,21 +1,21 @@
 "use client";
-/* Trove — RAWG search-results picker. RAWG has no paste-able numeric id like TMDB,
-   so games are matched by name; when the search returns several games we ask which
-   one. Escape or a scrim click cancels. */
+/* Trove — game search-results picker. Games are matched by name (IGDB), so when
+   the search returns several we ask which one. Escape or a scrim click cancels.
+   Reuses the .rawg-pick* styles. */
 import { useEffect } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import type { RawgCandidate } from "@/lib/client-api";
+import type { IgdbCandidate } from "@/lib/client-api";
 
-export function RawgPicker({
+export function GamePicker({
   query,
   results,
   onPick,
   onCancel,
 }: {
   query: string;
-  results: RawgCandidate[];
-  onPick: (c: RawgCandidate) => void;
+  results: IgdbCandidate[];
+  onPick: (c: IgdbCandidate) => void;
   onCancel: () => void;
 }) {
   useEffect(() => {
@@ -32,13 +32,11 @@ export function RawgPicker({
         className="modal modal--list"
         role="dialog"
         aria-modal="true"
-        aria-label={`RAWG matches for ${query}`}
+        aria-label={`Game matches for ${query}`}
         onClick={(e) => e.stopPropagation()}
       >
         <h3>Which game?</h3>
-        <p>
-          RAWG returned several matches for “{query}”. Pick the right one to pull its year &amp; cover art.
-        </p>
+        <p>IGDB returned several matches for “{query}”. Pick the right one to pull its year &amp; cover art.</p>
         <ul className="rawg-pick">
           {results.map((c) => (
             <li key={c.id}>
