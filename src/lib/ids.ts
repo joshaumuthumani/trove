@@ -41,7 +41,7 @@ export function extractTraktRef(input: string): string | null {
   return ref && /^[A-Za-z0-9][A-Za-z0-9-]*$/.test(ref) ? ref : null;
 }
 
-const IMAGE_HOSTS = new Set(["image.tmdb.org", "media.rawg.io"]);
+const IMAGE_HOSTS = new Set(["image.tmdb.org", "media.rawg.io", "images.igdb.com"]);
 
 /* Poster/cover URLs are persisted and later rendered into a raw <img src>, so
    they must be validated before storage: keep only https URLs served by the

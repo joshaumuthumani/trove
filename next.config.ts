@@ -7,7 +7,7 @@ import type { NextConfig } from "next";
 // to nonces later.
 const CSP = [
   "default-src 'self'",
-  "img-src 'self' https://image.tmdb.org https://media.rawg.io data:",
+  "img-src 'self' https://image.tmdb.org https://media.rawg.io https://images.igdb.com data:",
   "style-src 'self' 'unsafe-inline'",
   "script-src 'self' 'unsafe-inline'",
   "font-src 'self'",
@@ -31,6 +31,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "image.tmdb.org" },
       { protocol: "https", hostname: "media.rawg.io" },
+      { protocol: "https", hostname: "images.igdb.com" },
     ],
   },
   async headers() {

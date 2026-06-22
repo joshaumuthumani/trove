@@ -55,6 +55,17 @@ export async function searchRawg(name: string): Promise<RawgCandidate[]> {
   return r.results;
 }
 
+export interface IgdbCandidate {
+  id: number;
+  title: string;
+  year: number | null;
+  cover_url: string | null;
+}
+export async function searchIgdb(name: string): Promise<IgdbCandidate[]> {
+  const r = await json<{ results: IgdbCandidate[] }>(await fetch(`/api/metadata/igdb?q=${encodeURIComponent(name)}`));
+  return r.results;
+}
+
 export interface TraktSeason {
   season: number;
   episode_count: number;

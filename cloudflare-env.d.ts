@@ -11,4 +11,7 @@ interface CloudflareEnv {
   RAWG_API_KEY?: string;
   /** Trakt app client_id — optional, powers on-demand season augmentation. */
   TRAKT_API_KEY?: string;
+  /** Twitch app credentials — optional, power IGDB game cover/search lookups. */
+  TWITCH_CLIENT_ID?: string;
+  TWITCH_CLIENT_SECRET?: string;
 }
