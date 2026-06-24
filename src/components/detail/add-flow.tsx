@@ -2,7 +2,7 @@
 /* Trove — Add flow. Movies/TV: paste a TMDB id/URL -> fetch -> preview. Games:
    search IGDB by name -> pick -> preview. Then set ownership, save, redirect to
    the new detail. Ported from add.jsx; the simulated fetch is now live. */
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cx } from "@/lib/cx";
@@ -113,12 +113,26 @@ export function AddFlow({ catalog }: { catalog: Catalog }) {
       body = { tmdb_id: meta.id, series: meta.title, year: meta.year, poster_url: meta.poster_url, director: meta.director, user_score: meta.user_score, overview: meta.overview, seasons };
     }
     const { id } = await createItem(catalog, body);
-    router.push(`${cfg.route}/${id}`);
+    // replace (not push) so the /new page doesn't linger in history — "back"
+    // from the new item's detail then returns to the list, not the Add page.
+    router.replace(`${cfg.route}/${id}`);
+  };
+
+  // Back to the list: history.back() restores the exact filtered/sorted list we
+  // came from; href is the fallback for deep links. Mirrors DetailShell.
+  const onBack = (e: MouseEvent) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    try {
+      if (sessionStorage.getItem("trove:inapp")) {
+        e.preventDefault();
+        router.back();
+      }
+    } catch {}
   };
 
   return (
     <div className="addflow">
-      <Link className="cat-back" href={cfg.route}>
+      <Link className="cat-back" href={cfg.route} onClick={onBack}>
         <Icon name="chevronLeft" size={16} />
         {cfg.name}
       </Link>
