@@ -13,6 +13,7 @@
     "db:seed:local": "tsx scripts/seed.ts --local",
     "db:reset:remote": "wrangler d1 execute trove --remote --file=db/migrations/0001_init.sql",
     "db:seed:remote": "tsx scripts/seed.ts --remote",
+    "secrets:sync": "bash scripts/sync-secrets.sh",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"

@@ -27,9 +27,14 @@
   `.vercel/output/static`). Production branch `main`; build cmd
   `npx opennextjs-cloudflare build`, deploy cmd `npx opennextjs-cloudflare deploy`.
   `wrangler.jsonc` (committed D1 `database_id`) is the source of truth.
-- **Secrets:** `TMDB_API_KEY` / `RAWG_API_KEY` must be encrypted **Secrets** on the
-  Worker, not plaintext vars — `wrangler deploy` resets dashboard plaintext vars
-  each deploy (secrets persist). Read via `getEnv()` (`src/lib/db.ts`).
+- **Secrets:** `TMDB_API_KEY` / `RAWG_API_KEY` / `TRAKT_API_KEY` / `TWITCH_CLIENT_ID`
+  / `TWITCH_CLIENT_SECRET` must be encrypted **Secrets** on the Worker, not plaintext
+  vars — `wrangler deploy` resets dashboard plaintext vars each deploy (secrets
+  persist). Read via `getEnv()` (`src/lib/db.ts`). **Source of truth is GCP Secret
+  Manager**; push values into Cloudflare with `npm run secrets:sync`
+  (`GCP_PROJECT=… npm run secrets:sync`, needs authed `gcloud` + `wrangler`). Not a
+  per-deploy step — CF secrets persist; re-run only on rotation. The Worker never
+  talks to GCP at runtime.
 - **Auth/security:** no app-level auth by design — the Worker sits behind
   **Cloudflare Access** (load-bearing; verify it also covers the `*.workers.dev`
   URL). Findings + fixes live in `SECURITY.md`. Stored art URLs are validated by
