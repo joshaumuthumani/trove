@@ -1,7 +1,19 @@
 @AGENTS.md
 
-# Trove — project notes
+# Trove — Project Notes & Workflow
 
+## GitHub Project Board Workflow & Rules
+- **No uncaptured work**: Every code modification or chore must map to a GitHub issue on the [Trove Board](https://github.com/users/joshaumuthumani/projects/3).
+- **Issue Type Labels**: Exactly one `type:` label (`type: feature`, `type: story`, `type: task`, `type: bug`) must be applied per issue.
+- **Hierarchy via Sub-issues**: Work is structured as `feature` (top-level capability) → `story` (user-facing slice, linked as sub-issue of feature) → `task` (concrete unit of work, linked as sub-issue of story).
+- **Board Status**: Add all issues to the board; new issues must start with status **Todo**.
+- **Auto-Closing Issues**: Reference issue numbers in commits or PR descriptions using the format `Fixes #<n>` or `Closes #<n>` to automatically link them and move to **Done** upon merging to `main`.
+- **Guardrails**:
+  - Never commit credentials/secrets (use encrypted Cloudflare Worker Secrets).
+  - Target WCAG 2.1 AA guidelines for all user-facing interface elements.
+  - Run security-check / `npm run lint` and verification commands before opening any PR.
+
+## Technical Details
 - **Design source of truth:** `db/source/` keeps the PRD; the hi-fi prototype it
   was ported from lives in the design handoff. The prototype's CSS was ported
   verbatim into `src/app/globals.css` — keep class names stable so components map

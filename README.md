@@ -79,6 +79,12 @@ regenerate `db/seed/{movies,tv,games}.json` in the same shape (see
 `games.platforms` is a JSON array of `{service, format}` and TV seasons carry
 `episodes` (`"all" | "unowned" | number[]`) + `owned_on` (string array).
 
+## Project Board & Workflow
+
+Work is tracked on the [Trove Board](https://github.com/users/joshaumuthumani/projects/3) GitHub Project (repo → **Projects** tab) using a **Feature → Story → Task** issue hierarchy. Status flows **Todo → In Progress → Done**; commits/PRs reference issues (`Fixes #12`) to auto-close on merge.
+
+See [GitHub Project Setup.md](GitHub%20Project%20Setup.md) for the full setup and [CLAUDE.md](CLAUDE.md) for contributor/agent rules.
+
 ## Cloudflare deployment (owner steps)
 
 The D1 database `trove` is already provisioned (its `database_id` is wired into
