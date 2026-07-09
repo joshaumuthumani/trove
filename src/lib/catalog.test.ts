@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { titleSortKey, buildMovieRows, buildTVRows } from "./catalog";
+import { titleSortKey, buildMovieRows, buildTVRows, resolveView } from "./catalog";
 import type { Movie, TVSeries } from "./types";
 
 test("titleSortKey: strips leading A/An/The (only when followed by a space)", () => {
@@ -74,4 +74,24 @@ test("buildTVRows: carries per-provider episode counts and ignores article in so
   const wire = rows.find((r) => r.title === "The Wire")!;
   assert.deepEqual(wire.chipCounts, { "Apple TV": 13 });
   assert.equal(wire.owned, 1);
+});
+
+test("resolveView: movies/games default to grid when no param", () => {
+  assert.equal(resolveView("movies", undefined), "grid");
+  assert.equal(resolveView("games", undefined), "grid");
+});
+
+test("resolveView: explicit table is honored for movies/games", () => {
+  assert.equal(resolveView("movies", "table"), "table");
+  assert.equal(resolveView("games", "table"), "table");
+});
+
+test("resolveView: unrecognized param falls back to the catalog default", () => {
+  assert.equal(resolveView("movies", "garbage"), "grid");
+  assert.equal(resolveView("games", "grid"), "grid");
+});
+
+test("resolveView: TV is always table, even with ?view=grid", () => {
+  assert.equal(resolveView("tv", "grid"), "table");
+  assert.equal(resolveView("tv", undefined), "table");
 });

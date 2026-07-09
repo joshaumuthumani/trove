@@ -84,6 +84,14 @@ export function titleSortKey(title: string): string {
   return (title || "").trim().toLowerCase().replace(/^(the|an|a)\s+/, "");
 }
 
+// Resolve the effective browse view from the URL ?view= param. TV has no grid,
+// so it is always "table"; Movies/Games default to "grid" and only switch to
+// "table" on an explicit ?view=table (any other value falls back to grid).
+export function resolveView(catalog: Catalog, viewParam: string | undefined): "grid" | "table" {
+  if (catalog === "tv") return "table";
+  return viewParam === "table" ? "table" : "grid";
+}
+
 function applySort<T extends { title: string; year: number | null; id: number }>(
   rows: T[],
   sort: string,
