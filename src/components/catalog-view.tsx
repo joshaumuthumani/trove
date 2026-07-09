@@ -10,6 +10,7 @@ import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { FilterBar, type Density } from "@/components/filter-bar";
 import { CatalogTable } from "@/components/catalog-table";
+import { CatalogGrid } from "@/components/catalog-grid";
 import { CATALOG_META } from "@/lib/catalog";
 import type { Catalog, GamePlatform } from "@/lib/types";
 
@@ -49,10 +50,12 @@ export function CatalogView({
   catalog,
   rows,
   total,
+  view,
 }: {
   catalog: Catalog;
   rows: DisplayRow[];
   total: number;
+  view: "grid" | "table";
 }) {
   const cfg = CATALOG_META[catalog];
   const [density, setDensity] = usePersistedDensity();
@@ -108,6 +111,8 @@ export function CatalogView({
             Clear filters
           </Button>
         </div>
+      ) : view === "grid" ? (
+        <CatalogGrid catalog={catalog} rows={rows} density={density} detailHref={detailHref} markInApp={markInApp} />
       ) : (
         <CatalogTable catalog={catalog} rows={rows} density={density} detailHref={detailHref} markInApp={markInApp} />
       )}

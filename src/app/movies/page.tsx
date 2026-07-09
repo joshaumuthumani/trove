@@ -1,6 +1,6 @@
 import { CatalogView, type DisplayRow } from "@/components/catalog-view";
 import { getAllMovies } from "@/lib/queries";
-import { buildMovieRows, type CatalogParams } from "@/lib/catalog";
+import { buildMovieRows, resolveView, type CatalogParams } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -28,5 +28,6 @@ export default async function MoviesPage({ searchParams }: { searchParams: SP })
     user_score: v.raw.user_score,
     badge: v.badge,
   }));
-  return <CatalogView catalog="movies" rows={rows} total={movies.length} />;
+  const view = resolveView("movies", str(sp.view));
+  return <CatalogView catalog="movies" rows={rows} total={movies.length} view={view} />;
 }

@@ -1,6 +1,6 @@
 import { CatalogView, type DisplayRow } from "@/components/catalog-view";
 import { getAllTV } from "@/lib/queries";
-import { buildTVRows, type CatalogParams } from "@/lib/catalog";
+import { buildTVRows, resolveView, type CatalogParams } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -30,5 +30,6 @@ export default async function TVPage({ searchParams }: { searchParams: SP }) {
     seasons: v.seasons,
     owned: v.owned,
   }));
-  return <CatalogView catalog="tv" rows={rows} total={tv.length} />;
+  const view = resolveView("tv", str(sp.view));
+  return <CatalogView catalog="tv" rows={rows} total={tv.length} view={view} />;
 }

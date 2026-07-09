@@ -1,6 +1,6 @@
 import { CatalogView, type DisplayRow } from "@/components/catalog-view";
 import { getAllGames } from "@/lib/queries";
-import { buildGameRows, type CatalogParams } from "@/lib/catalog";
+import { buildGameRows, resolveView, type CatalogParams } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -27,5 +27,6 @@ export default async function GamesPage({ searchParams }: { searchParams: SP }) 
     platforms: v.raw.platforms,
     badge: v.badge,
   }));
-  return <CatalogView catalog="games" rows={rows} total={games.length} />;
+  const view = resolveView("games", str(sp.view));
+  return <CatalogView catalog="games" rows={rows} total={games.length} view={view} />;
 }
