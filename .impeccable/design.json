@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-08T00:00:00Z",
+  "title": "Design System: Trove",
+  "extensions": {
+    "colorMeta": {
+      "bg": { "role": "neutral", "displayName": "Vault Interior", "canonical": "oklch(15% 0.004 285)", "tonalRamp": ["#09090b", "#121214", "#17171a", "#202024", "#2a2a30", "#3a3a42", "#5a5a63", "#8e8e97"] },
+      "accent-gold": { "role": "primary", "displayName": "Vault Gold", "canonical": "oklch(79% 0.16 85)", "tonalRamp": ["#3a2a04", "#5c4206", "#8a6408", "#ca8a04", "#eab308", "#f3c14e", "#f8d689", "#fbe9c0"] },
+      "danger-rose": { "role": "secondary", "displayName": "Danger Rose", "canonical": "oklch(65% 0.22 15)", "tonalRamp": ["#4c0f1c", "#7a1a2e", "#b02742", "#e11d48", "#f43f5e", "#fb7185", "#fda4b0", "#fecdd5"] },
+      "status-ok-green": { "role": "tertiary", "displayName": "Tagged Green", "canonical": "oklch(78% 0.14 165)", "tonalRamp": ["#0d3a2a", "#125a41", "#188a63", "#1fae7c", "#34d399", "#6ee7b7", "#a7f3d0", "#d1fae5"] },
+      "status-review-orange": { "role": "tertiary", "displayName": "Review Orange", "canonical": "oklch(76% 0.15 60)", "tonalRamp": ["#4a2708", "#6e3a0c", "#a15613", "#d97a24", "#fb923c", "#fdba74", "#fed7aa", "#ffedd5"] },
+      "status-untagged-indigo": { "role": "tertiary", "displayName": "Untagged Indigo", "canonical": "oklch(68% 0.13 265)", "tonalRamp": ["#1e2a5a", "#2c3d7a", "#3f52a1", "#5a72d0", "#7c9af5", "#aabef9", "#c7d5fb", "#e0e8fd"] },
+      "text": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(96% 0.003 285)", "tonalRamp": ["#202024", "#3a3a42", "#5a5a63", "#8e8e97", "#a4a4ad", "#c8c8ce", "#e2e2e6", "#f4f4f6"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display (Unbounded)", "purpose": "The 'Trove' wordmark only. Never a UI label." },
+      "headline": { "displayName": "Headline", "purpose": "Catalog page titles, launchpad card names." },
+      "title": { "displayName": "Title", "purpose": "Card names, section and detail headings." },
+      "body": { "displayName": "Body", "purpose": "Row titles, descriptions, general UI text." },
+      "label": { "displayName": "Label", "purpose": "Uppercase tracked column headers, badge text." },
+      "mono": { "displayName": "Mono (JetBrains)", "purpose": "All numerics: counts, years, scores. Tabular." }
+    },
+    "shadows": [
+      { "name": "poster-lift", "value": "0 6px 20px -8px rgba(0,0,0,.75)", "purpose": "Cover art standing off its surface." },
+      { "name": "card-ambient", "value": "0 1px 0 rgba(255,255,255,.03) inset, 0 8px 24px -12px rgba(0,0,0,.7)", "purpose": "Launchpad card hover lift." },
+      { "name": "popover", "value": "0 24px 50px -16px rgba(0,0,0,.8)", "purpose": "Global search + dropdown overlays." },
+      { "name": "accent-glow", "value": "0 4px 14px -6px #eab308", "purpose": "Soft gold glow under the primary button." }
+    ],
+    "motion": [
+      { "name": "ease-out-quart", "value": "cubic-bezier(.22,.61,.36,1)", "purpose": "Default easing for all UI transitions (--ease)." },
+      { "name": "duration-fast", "value": "120ms", "purpose": "Row hover, FAB press, chip interactions." },
+      { "name": "duration-base", "value": "160ms", "purpose": "Buttons, inputs, nav links." },
+      { "name": "duration-lift", "value": "220ms", "purpose": "Launchpad card hover lift." }
+    ],
+    "breakpoints": [
+      { "name": "maxw", "value": "1160px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Accent Button",
+      "kind": "button",
+      "refersTo": "button-accent",
+      "description": "The primary action. One per view; gold is the one voice.",
+      "html": "<button class=\"ds-btn-accent\">+ Add movie</button>",
+      "css": ".ds-btn-accent{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;font-size:15px;font-weight:700;line-height:1;border:1px solid transparent;border-radius:10px;background:#eab308;color:#1f1603;box-shadow:0 4px 14px -6px #eab308;cursor:pointer;transition:.16s cubic-bezier(.22,.61,.36,1)}.ds-btn-accent:hover{background:#f3c14e}.ds-btn-accent:active{background:#ca8a04}.ds-btn-accent:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(234,179,8,.14)}"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button-default",
+      "description": "The neutral worker button; surface-3 fill.",
+      "html": "<button class=\"ds-btn-default\">Edit</button>",
+      "css": ".ds-btn-default{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;font-size:15px;font-weight:600;line-height:1;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:#202024;color:#f4f4f6;cursor:pointer;transition:.16s cubic-bezier(.22,.61,.36,1)}.ds-btn-default:hover{background:#26262b;border-color:rgba(255,255,255,.18)}.ds-btn-default:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(234,179,8,.14)}"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Destructive actions only. Rose, never gold.",
+      "html": "<button class=\"ds-btn-danger\">Delete</button>",
+      "css": ".ds-btn-danger{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;font-size:15px;font-weight:600;line-height:1;border:1px solid transparent;border-radius:10px;background:#e11d48;color:#fff;cursor:pointer;transition:.16s cubic-bezier(.22,.61,.36,1)}.ds-btn-danger:hover{background:#f43f5e}.ds-btn-danger:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(244,63,94,.14)}"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "Filter/search field; gold-line focus bloom.",
+      "html": "<div class=\"ds-search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m21 21-4.3-4.3\"/></svg><input placeholder=\"Search movies\"/></div>",
+      "css": ".ds-search{display:flex;align-items:center;gap:9px;height:42px;padding:0 13px;background:#17171a;border:1px solid rgba(255,255,255,.07);border-radius:11px;color:#8e8e97;transition:.16s cubic-bezier(.22,.61,.36,1)}.ds-search:focus-within{border-color:rgba(234,179,8,.4);box-shadow:0 0 0 3px rgba(234,179,8,.14);background:#202024}.ds-search input{flex:1;min-width:0;background:none;border:none;outline:none;font-size:15.5px;color:#f4f4f6}.ds-search input::placeholder{color:#8e8e97}"
+    },
+    {
+      "name": "Status Badge — Needs Review",
+      "kind": "chip",
+      "refersTo": "badge-review",
+      "description": "Movie needs-review status. Icon + word + hue, never hue alone.",
+      "html": "<span class=\"ds-badge-review\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><path d=\"M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z\"/></svg>Needs review</span>",
+      "css": ".ds-badge-review{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:7px;font-size:11.5px;font-weight:700;line-height:1;white-space:nowrap;background:rgba(251,146,60,.14);color:#fb923c}"
+    },
+    {
+      "name": "Status — Tagged",
+      "kind": "chip",
+      "refersTo": "status-ok",
+      "description": "Settled/tagged state; check icon + word.",
+      "html": "<span class=\"ds-status-ok\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><path d=\"M20 6 9 17l-5-5\"/></svg>Tagged</span>",
+      "css": ".ds-status-ok{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:#34d399}"
+    },
+    {
+      "name": "Service Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Ownership chip; pill with a leading service mark.",
+      "html": "<span class=\"ds-chip\"><span class=\"ds-chip-mark\">IT</span><span>iTunes</span></span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;gap:7px;padding:3px 11px 3px 4px;border-radius:999px;background:#202024;border:1px solid rgba(255,255,255,.07);font-size:13px;font-weight:600;color:#f4f4f6;white-space:nowrap;line-height:1}.ds-chip-mark{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:5px;background:#4a5bdc;color:#fff;font-size:9px;font-weight:800;letter-spacing:-.03em;box-shadow:0 1px 2px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.1)}"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "topbar-link",
+      "description": "Top-bar navigation; active item sits on surface-3 with a gold icon.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link ds-nav-link--on\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"2\" y=\"3\" width=\"20\" height=\"14\" rx=\"2\"/><path d=\"M8 21h8M12 17v4\"/></svg>Movies</a><a class=\"ds-nav-link\">TV</a><a class=\"ds-nav-link\">Games</a></nav>",
+      "css": ".ds-nav{display:flex;gap:3px}.ds-nav-link{display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:9px;color:#a4a4ad;font-weight:600;font-size:15px;cursor:pointer;transition:.16s cubic-bezier(.22,.61,.36,1)}.ds-nav-link:hover{color:#f4f4f6;background:#17171a}.ds-nav-link--on{color:#f4f4f6;background:#202024}.ds-nav-link--on svg{color:#f3c14e}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Lit Vault",
+    "overview": "Trove is a dark room built so that two things glow: the gold, and the art. Everything else recedes into near-black so the collection reads as treasure on a shelf and the accent reads as brass catching light. The register is product — a single owner answering 'what do I own and where can I open it' in under five seconds — so density is a virtue and controls repeat identically across catalogs. But the collector's pleasure is real and lives in the artifact: cover art is never chrome, and where a catalog is about single owned objects (Movies, Games) the posters lead.",
+    "keyCharacteristics": [
+      "Near-black vault interior; depth by tonal layering, not shadow.",
+      "Gold is material, spent rarely — action and current selection only.",
+      "Cover art is treasure, lit; it never becomes decoration or chrome.",
+      "Mono numerics carry the ledger (counts, years, scores).",
+      "One sans family does all the UI work; a display face is reserved for the wordmark."
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "Gold appears on ≤10% of any screen. It is the only warm color in a cool field, so a single gold element commands the eye — spend it on the one action that matters and nothing else.", "section": "colors" },
+      { "name": "The Split-Accent Rule", "body": "Gold is action; rose is destruction. They are never interchanged and never adjacent as if equivalent. If a delete affordance is gold, it is wrong.", "section": "colors" },
+      { "name": "The No-Color-Only-Status Rule", "body": "Every status carries an icon and a word. Hue is redundant reinforcement, never the sole signal — the status palette collapses under red-green color vision deficiency.", "section": "colors" },
+      { "name": "The Ledger Rule", "body": "All numerics are mono and tabular-nums. A year, a count, or a score never renders in the sans; digits must align vertically down a column.", "section": "typography" },
+      { "name": "The Wordmark Quarantine", "body": "Unbounded appears only in the 'Trove' wordmark. It is never a UI label, a button, or a heading.", "section": "typography" },
+      { "name": "The Tonal-Depth Rule", "body": "Reach for a lighter surface before a shadow. Panels, toolbars, and rows separate by tone; shadow is only for elements that literally overlay the page.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep gold to ≤10% of any screen — action and current selection only.",
+      "Do render every number in JetBrains Mono with tabular-nums.",
+      "Do separate surfaces by tone before reaching for a shadow.",
+      "Do pair every status color with an icon and a word.",
+      "Do keep button, filter, and search vocabulary identical across Movies, TV, and Games.",
+      "Do give inputs the gold-line + gold-soft-glow focus bloom."
+    ],
+    "donts": [
+      "Don't use gold and rose as if interchangeable. A gold delete button is a bug.",
+      "Don't signal status by hue alone. Never wire up .chip-dot; delete it.",
+      "Don't let cover art become chrome or decoration.",
+      "Don't put Unbounded into any UI label, button, or heading.",
+      "Don't build the streaming-service billboard, the social-film feed, or the enterprise admin panel.",
+      "Don't drop a shadow on a table row or a flat panel."
+    ]
+  }
+}

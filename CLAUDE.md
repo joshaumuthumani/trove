@@ -2,6 +2,20 @@
 
 # Trove — Project Notes & Workflow
 
+## Design Context
+- **[PRODUCT.md](PRODUCT.md)** — strategic design context (register: **product**).
+  Users, purpose, brand personality (*archival, considered, collector's*),
+  anti-references (social-film feeds, enterprise admin panels), and 5 design
+  principles: (1) representation follows the artifact — Movies/Games browse as a
+  poster grid, TV as a table + season grid; (2) shared tasks keep a shared
+  vocabulary; (3) ownership is the answer, everything else is chrome; (4) color is
+  a signal, never the *only* signal (status = hue **+** icon **+** label);
+  (5) the URL is the state.
+- **[DESIGN.md](DESIGN.md)** — visual system, North Star *"The Lit Vault"*: dark
+  zinc surfaces, gold as material (≤10% of any screen), cover art as treasure, mono
+  numerics as the ledger. `.impeccable/design.json` is the machine-readable sidecar.
+  Run `/impeccable` commands for design work; they read both files first.
+
 ## GitHub Project Board Workflow & Rules
 - **No uncaptured work**: Every code modification or chore must map to a GitHub issue on the [Trove Board](https://github.com/users/joshaumuthumani/projects/3).
 - **Issue Type Labels**: Exactly one `type:` label (`type: feature`, `type: story`, `type: task`, `type: bug`) must be applied per issue.
