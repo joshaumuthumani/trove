@@ -356,6 +356,22 @@ h1,h2,h3{letter-spacing:-.02em;font-weight:700}
 .cat-empty-icon{display:grid;place-items:center;width:54px;height:54px;border-radius:14px;background:var(--surface-2);color:var(--text-3)}
 .cat-empty p{font-size:15px}
 
+/* ============================ CATALOG GRID ============================ */
+.catgrid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(var(--tile,164px),1fr))}
+.density-comfortable .catgrid{--tile:164px;gap:20px}
+.density-compact .catgrid{--tile:120px;gap:14px}
+.catgrid-tile{display:flex;flex-direction:column;gap:9px;text-align:left;transition:transform .16s var(--ease)}
+.catgrid-tile:hover{transform:translateY(-3px)}
+.catgrid-tile:hover .poster{box-shadow:0 12px 28px -10px rgba(0,0,0,.8)}
+.catgrid-tile:focus-visible{outline:none;box-shadow:none}
+.catgrid-tile:focus-visible .poster{box-shadow:0 0 0 3px var(--accent-2)}
+.catgrid-art{position:relative}
+.catgrid-badge{position:absolute;top:7px;left:7px;z-index:2}
+.catgrid-title{font-weight:600;font-size:14.5px;line-height:1.25;color:var(--text);text-wrap:balance;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.density-compact .catgrid-title{font-size:13px}
+.catgrid-marks{min-height:22px}
+
 /* ============================ DETAIL ============================ */
 .detail-back{margin-bottom:18px;margin-left:-6px}
 .detail-hero{display:grid;grid-template-columns:232px 1fr;gap:34px;align-items:start}
