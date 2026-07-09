@@ -37,7 +37,7 @@ export function PosterTile({
   year?: number | null;
   src?: string | null;
   ratio?: string;
-  size?: number;
+  size?: number | "fill";
   rounded?: number;
   missing?: boolean;
   kind?: string;
@@ -49,12 +49,14 @@ export function PosterTile({
     .map((w) => w[0])
     .join("")
     .toUpperCase();
+  const isFill = size === "fill";
+  const basis = isFill ? 160 : size; // px basis for placeholder text/icon sizing
   const grad = missing ? null : posterGradient(title || "");
   return (
     <div
       className={cx("poster", className)}
       style={{
-        width: size,
+        width: isFill ? "100%" : size,
         aspectRatio: ratio,
         borderRadius: rounded,
         flex: "0 0 auto",
@@ -63,23 +65,23 @@ export function PosterTile({
     >
       {missing ? (
         <div className="poster-missing">
-          <Icon name={kind} size={Math.max(16, size * 0.32)} />
-          <span style={{ fontSize: Math.max(7, size * 0.14) }}>no art</span>
+          <Icon name={kind} size={Math.max(16, basis * 0.32)} />
+          <span style={{ fontSize: Math.max(7, basis * 0.14) }}>no art</span>
         </div>
       ) : src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img className="poster-img" src={src} alt={title || ""} draggable={false} />
       ) : (
         <>
-          <span className="poster-watermark" style={{ fontSize: size * 0.55 }}>
+          <span className="poster-watermark" style={{ fontSize: basis * 0.55 }}>
             {initials}
           </span>
           <div className="poster-meta">
-            <span className="poster-title" style={{ fontSize: Math.max(8, size * 0.13) }}>
+            <span className="poster-title" style={{ fontSize: Math.max(8, basis * 0.13) }}>
               {title}
             </span>
             {year ? (
-              <span className="poster-year" style={{ fontSize: Math.max(7, size * 0.11) }}>
+              <span className="poster-year" style={{ fontSize: Math.max(7, basis * 0.11) }}>
                 {year}
               </span>
             ) : null}
