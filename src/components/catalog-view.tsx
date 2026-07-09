@@ -99,7 +99,7 @@ export function CatalogView({
         </Button>
       </div>
 
-      <FilterBar catalog={catalog} density={density} setDensity={setDensity} />
+      <FilterBar catalog={catalog} density={density} setDensity={setDensity} view={view} />
 
       {rows.length === 0 ? (
         <div className="cat-empty">

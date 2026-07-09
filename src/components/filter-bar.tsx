@@ -17,10 +17,12 @@ export function FilterBar({
   catalog,
   density,
   setDensity,
+  view,
 }: {
   catalog: Catalog;
   density: Density;
   setDensity: (d: Density) => void;
+  view: "grid" | "table";
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -152,6 +154,17 @@ export function FilterBar({
             <Icon name={dir === "desc" ? "arrowDown" : "arrowUp"} size={15} />
           </button>
         </div>
+        {catalog !== "tv" && (
+          <Segmented
+            size="sm"
+            value={view}
+            onChange={(v) => setParam("view", v === "grid" ? "" : v)}
+            options={[
+              { value: "grid", icon: "grid", title: "Poster grid" },
+              { value: "table", icon: "list", title: "Table" },
+            ]}
+          />
+        )}
         <Segmented
           size="sm"
           value={density}
