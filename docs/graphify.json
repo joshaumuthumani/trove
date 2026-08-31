@@ -1,0 +1,27 @@
+{
+  "status": "enabled",
+  "graphify_version": "0.9.53",
+  "repository": "joshaumuthumani/trove",
+  "workspace": "6ff7e562-50f3-4bfb-aa49-3a30ecdf1772",
+  "project": "Multica SDLC Setup",
+  "graph_path": "graphify-out/graph.json",
+  "code_layer": {
+    "command": "graphify extract . --code-only --update",
+    "requires_credentials": false,
+    "blocking": true
+  },
+  "doc_layer": {
+    "backend": "openai",
+    "endpoint": "https://openrouter.ai/api/v1",
+    "model": "deepseek/deepseek-v4-flash",
+    "credential": "OPENROUTER_KEY",
+    "blocking": false
+  },
+  "last_refresh": {
+    "commit": "7a9f1a5b1234c0f6e2b93707f62eecb5a322531e",
+    "nodes": 4686,
+    "edges": 12135,
+    "result": "success",
+    "layer": "code"
+  }
+}
