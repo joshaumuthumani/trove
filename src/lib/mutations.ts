@@ -30,14 +30,15 @@ export async function createMovie(m: MovieInput): Promise<number> {
   return Number(res.meta.last_row_id);
 }
 
-export async function updateMovie(id: number, m: MovieInput): Promise<void> {
+export async function updateMovie(id: number, m: MovieInput): Promise<boolean> {
   const db = await getDb();
-  await db
+  const res = await db
     .prepare(
       "UPDATE movies SET tmdb_id=?,title=?,year=?,poster_url=?,director=?,user_score=?,overview=?,digital=?,physical=?,needs_review=? WHERE id=?"
     )
     .bind(m.tmdb_id, m.title, m.year, m.poster_url, m.director, m.user_score, m.overview, arr(m.digital), arr(m.physical), m.needs_review ? 1 : 0, id)
     .run();
+  return (res.meta.changes ?? 0) > 0;
 }
 
 // ---- tv -------------------------------------------------------------------
@@ -75,16 +76,17 @@ export async function createTV(t: TVInput): Promise<number> {
   return id;
 }
 
-export async function updateTV(id: number, t: TVInput): Promise<void> {
+export async function updateTV(id: number, t: TVInput): Promise<boolean> {
   const db = await getDb();
+  const seriesRes = await db
+    .prepare("UPDATE tv_series SET tmdb_id=?,series=?,year=?,poster_url=?,director=?,user_score=?,overview=?,note=? WHERE id=?")
+    .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.director, t.user_score, t.overview, t.note, id)
+    .run();
+  // Bail before touching seasons so a missing id never inserts orphan season rows.
+  if ((seriesRes.meta.changes ?? 0) === 0) return false;
   // One batch = one transaction, so the season replace can't half-apply.
-  await db.batch([
-    db
-      .prepare("UPDATE tv_series SET tmdb_id=?,series=?,year=?,poster_url=?,director=?,user_score=?,overview=?,note=? WHERE id=?")
-      .bind(t.tmdb_id, t.series, t.year, t.poster_url, t.director, t.user_score, t.overview, t.note, id),
-    db.prepare("DELETE FROM tv_seasons WHERE series_id=?").bind(id),
-    ...seasonStmts(db, id, t.seasons),
-  ]);
+  await db.batch([db.prepare("DELETE FROM tv_seasons WHERE series_id=?").bind(id), ...seasonStmts(db, id, t.seasons)]);
+  return true;
 }
 
 // ---- games ----------------------------------------------------------------
@@ -106,13 +108,14 @@ export async function createGame(g: GameInput): Promise<number> {
   return Number(res.meta.last_row_id);
 }
 
-export async function updateGame(id: number, g: GameInput): Promise<void> {
+export async function updateGame(id: number, g: GameInput): Promise<boolean> {
   const db = await getDb();
   const clean = (g.platforms || []).filter((e) => e.service);
-  await db
+  const res = await db
     .prepare("UPDATE games SET rawg_id=?,title=?,year=?,cover_url=?,platforms=?,needs_tagging=? WHERE id=?")
     .bind(g.rawg_id, g.title, g.year, g.cover_url, JSON.stringify(clean), clean.length === 0 ? 1 : 0, id)
     .run();
+  return (res.meta.changes ?? 0) > 0;
 }
 
 // ---- delete ---------------------------------------------------------------
@@ -124,9 +127,10 @@ const DELETE_SQL: Record<"movies" | "tv_series" | "games", string> = {
   games: "DELETE FROM games WHERE id=?",
 };
 
-export async function deleteRow(table: "movies" | "tv_series" | "games", id: number): Promise<void> {
+export async function deleteRow(table: "movies" | "tv_series" | "games", id: number): Promise<boolean> {
   const sql = DELETE_SQL[table];
   if (!sql) throw new Error("Unknown table");
   const db = await getDb();
-  await db.prepare(sql).bind(id).run();
+  const res = await db.prepare(sql).bind(id).run();
+  return (res.meta.changes ?? 0) > 0;
 }
