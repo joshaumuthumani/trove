@@ -8,6 +8,8 @@ import {
   tvProviderEpisodeCounts,
   tvCompleteness,
   holdingEpisodeCount,
+  normalizeSeasonInput,
+  normalizeHoldingInput,
 } from "./tv";
 import type { Season, TVSeries } from "./types";
 
@@ -136,4 +138,50 @@ test("dedupeSeasons: 'all' beats a specific list when merging a platform", () =>
     { season: 1, episode_count: 7, owned: true, owned_on: [{ platform: "Apple TV", episodes: "all" }] },
   ]);
   assert.deepEqual(out[0].owned_on, [{ platform: "Apple TV", episodes: "all" }]);
+});
+
+// ---- normalizeHoldingInput / normalizeSeasonInput (write-path validation) --
+test("normalizeHoldingInput: drops unknown platforms", () => {
+  assert.equal(normalizeHoldingInput({ platform: "BitTorrent", episodes: "all" }, 10), null);
+});
+
+test("normalizeHoldingInput: clamps episode picks to 1..episode_count and drops the rest", () => {
+  const h = normalizeHoldingInput({ platform: "Apple TV", episodes: [0, 1, 5, 10, 11, -3, 2.5] }, 10);
+  assert.deepEqual(h, { platform: "Apple TV", episodes: [1, 5, 10] });
+});
+
+test("normalizeSeasonInput: valid season passes through with duplicate holdings merged", () => {
+  const s = normalizeSeasonInput({
+    season: 1,
+    episode_count: 10,
+    owned_on: [
+      { platform: "Apple TV", episodes: [1, 2] },
+      { platform: "Apple TV", episodes: [3] },
+    ],
+  });
+  assert.deepEqual(s, {
+    season: 1,
+    episode_count: 10,
+    owned: true,
+    owned_on: [{ platform: "Apple TV", episodes: [1, 2, 3] }],
+  });
+});
+
+test("normalizeSeasonInput: rejects negative, non-finite, and out-of-bounds season/episode_count", () => {
+  assert.equal(normalizeSeasonInput({ season: -1, episode_count: 10 }), null);
+  assert.equal(normalizeSeasonInput({ season: NaN, episode_count: 10 }), null);
+  assert.equal(normalizeSeasonInput({ season: 1.5, episode_count: 10 }), null);
+  assert.equal(normalizeSeasonInput({ season: 201, episode_count: 10 }), null);
+  assert.equal(normalizeSeasonInput({ season: 1, episode_count: -1 }), null);
+  assert.equal(normalizeSeasonInput({ season: 1, episode_count: Infinity }), null);
+  assert.equal(normalizeSeasonInput({ season: 1, episode_count: 2001 }), null);
+});
+
+test("normalizeSeasonInput: owned defaults from either the flag or a real holding", () => {
+  assert.equal(normalizeSeasonInput({ season: 1, episode_count: 5, owned: true })?.owned, true);
+  assert.equal(
+    normalizeSeasonInput({ season: 1, episode_count: 5, owned_on: [{ platform: "Apple TV", episodes: "all" }] })?.owned,
+    true
+  );
+  assert.equal(normalizeSeasonInput({ season: 1, episode_count: 5 })?.owned, false);
 });

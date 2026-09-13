@@ -1,4 +1,5 @@
 /* Trove — TV derived helpers (ported from catalog.jsx). */
+import { TV_PLATFORMS } from "./platforms";
 import type { TVSeries, Season, SeasonHolding, OwnedEpisodes } from "./types";
 
 function jsonArr(s: unknown): unknown[] {
@@ -106,6 +107,39 @@ export function tvProviderEpisodeCounts(t: TVSeries): Record<string, number> {
     })
   );
   return counts;
+}
+
+// Documented bounds for write-path validation: no real series runs this many
+// seasons/episodes; anything beyond is malformed input, not a long-running show.
+export const MAX_SEASON = 200;
+export const MAX_EPISODE_COUNT = 2000;
+
+// Keep only known platforms; clamp specific episode picks to 1..episode_count.
+export function normalizeHoldingInput(h: Record<string, unknown>, episodeCount: number): SeasonHolding | null {
+  const platform = String(h?.platform || "");
+  if (!TV_PLATFORMS.includes(platform)) return null;
+  let episodes: OwnedEpisodes = "all";
+  if (Array.isArray(h.episodes)) {
+    episodes = (h.episodes as unknown[]).map(Number).filter((n) => Number.isInteger(n) && n >= 1 && n <= episodeCount);
+  }
+  return { platform, episodes };
+}
+
+// Reject rather than coerce: a malformed season/episode_count silently defaulting
+// to 0 previously let negative or NaN input corrupt stored season data.
+export function normalizeSeasonInput(s: Record<string, unknown>): Season | null {
+  const season = Number(s.season);
+  const episode_count = Number(s.episode_count);
+  if (!Number.isInteger(season) || season < 0 || season > MAX_SEASON) return null;
+  if (!Number.isInteger(episode_count) || episode_count < 0 || episode_count > MAX_EPISODE_COUNT) return null;
+  const holdings = Array.isArray(s.owned_on)
+    ? (s.owned_on as Record<string, unknown>[])
+        .map((h) => normalizeHoldingInput(h, episode_count))
+        .filter((h): h is SeasonHolding => !!h)
+    : [];
+  // Collapse duplicate platform holdings within the same season (e.g. two "Apple TV" entries).
+  const owned_on = mergeHoldings(holdings, []);
+  return { season, episode_count, owned: !!s.owned || owned_on.length > 0, owned_on };
 }
 
 export function tvCompleteness(t: TVSeries): "partial" | "complete" {

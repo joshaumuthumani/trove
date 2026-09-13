@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createGame, type GameInput } from "@/lib/mutations";
 import { safeImageUrl } from "@/lib/ids";
-import { GAME_SERVICES, GAME_FORMATS } from "@/lib/platforms";
+import { normalizeGamePlatforms } from "@/lib/platforms";
 import { sameOrigin } from "@/lib/guard";
+import { jsonError, readJsonBody } from "@/lib/http";
 import { toText } from "../movies/route";
-import type { GamePlatform } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -15,13 +15,7 @@ const toNum = (v: unknown): number | null => {
 };
 
 export function toGameInput(b: Record<string, unknown>): GameInput {
-  // Keep only known services; normalise an unknown/blank format to "Disc".
-  const platforms: GamePlatform[] = Array.isArray(b.platforms)
-    ? (b.platforms as Record<string, unknown>[])
-        .map((e) => ({ service: String(e?.service || ""), format: String(e?.format || "Disc") }))
-        .filter((e) => GAME_SERVICES.includes(e.service))
-        .map((e) => ({ service: e.service, format: GAME_FORMATS.includes(e.format) ? e.format : "Disc" }))
-    : [];
+  const platforms = normalizeGamePlatforms(b.platforms);
   return {
     rawg_id: toNum(b.rawg_id),
     title: toText(b.title, 200) ?? "Untitled",
@@ -33,7 +27,8 @@ export function toGameInput(b: Record<string, unknown>): GameInput {
 
 export async function POST(req: NextRequest) {
   if (!sameOrigin(req)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const body = (await req.json()) as Record<string, unknown>;
+  const body = await readJsonBody(req);
+  if (body === null) return jsonError(400, "Invalid JSON body");
   const id = await createGame(toGameInput(body));
   return NextResponse.json({ id });
 }

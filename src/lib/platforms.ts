@@ -3,6 +3,7 @@
    FORMAT_LOGO). The services-vs-physical split is load-bearing: services render
    as square logo tiles (ServiceMark), physical formats as logo pills
    (FormatBadge). Logo asset paths point at /public/logos/*. */
+import type { GamePlatform } from "./types";
 
 export type PlatformKind = "digital" | "physical" | "tv" | "service";
 
@@ -102,4 +103,18 @@ export const isDigitalOnlySvc = (s: string): boolean =>
 export function filterKnown(input: unknown, allowed: readonly string[]): string[] {
   if (!Array.isArray(input)) return [];
   return input.map((v) => String(v)).filter((v) => allowed.includes(v));
+}
+
+/* Normalize untrusted game platform holdings: keep only known services,
+   coerce an unknown/blank format to "Disc", and collapse exact (service,format)
+   duplicates. A service can legitimately appear twice with different formats
+   (e.g. PlayStation on both Disc and Digital — see groupGamePlatforms), so
+   dedup keys on the pair, not the service alone. */
+export function normalizeGamePlatforms(input: unknown): GamePlatform[] {
+  if (!Array.isArray(input)) return [];
+  const raw = (input as Record<string, unknown>[])
+    .map((e) => ({ service: String(e?.service || ""), format: String(e?.format || "Disc") }))
+    .filter((e) => GAME_SERVICES.includes(e.service))
+    .map((e) => ({ service: e.service, format: GAME_FORMATS.includes(e.format) ? e.format : "Disc" }));
+  return [...new Map(raw.map((e) => [`${e.service}|${e.format}`, e])).values()];
 }

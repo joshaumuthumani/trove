@@ -5,6 +5,7 @@ import {
   toggleDigital,
   isPhysical,
   isDigitalOnlySvc,
+  normalizeGamePlatforms,
   MOVIE_DIGITAL,
   TV_PLATFORMS,
   GAME_SERVICES,
@@ -46,4 +47,40 @@ test("vocab: YouTube is a TV source; game formats are Digital/Disc", () => {
   assert.ok(TV_PLATFORMS.includes("YouTube"));
   assert.ok(TV_PLATFORMS.includes("Apple TV"));
   assert.deepEqual([...GAME_FORMATS].sort(), ["Digital", "Disc"]);
+});
+
+test("normalizeGamePlatforms: drops unknown services, coerces bad formats to Disc", () => {
+  assert.deepEqual(normalizeGamePlatforms([{ service: "Steam", format: "Digital" }, { service: "Atari", format: "Digital" }]), [
+    { service: "Steam", format: "Digital" },
+  ]);
+  assert.deepEqual(normalizeGamePlatforms([{ service: "Steam", format: "Cartridge" }]), [{ service: "Steam", format: "Disc" }]);
+  assert.deepEqual(normalizeGamePlatforms([{ service: "Steam" }]), [{ service: "Steam", format: "Disc" }]);
+});
+
+test("normalizeGamePlatforms: keeps one service in two distinct formats (Disc + Digital)", () => {
+  assert.deepEqual(
+    normalizeGamePlatforms([
+      { service: "PlayStation", format: "Disc" },
+      { service: "PlayStation", format: "Digital" },
+    ]),
+    [
+      { service: "PlayStation", format: "Disc" },
+      { service: "PlayStation", format: "Digital" },
+    ]
+  );
+});
+
+test("normalizeGamePlatforms: collapses exact (service, format) duplicates", () => {
+  assert.deepEqual(
+    normalizeGamePlatforms([
+      { service: "Steam", format: "Digital" },
+      { service: "Steam", format: "Digital" },
+    ]),
+    [{ service: "Steam", format: "Digital" }]
+  );
+});
+
+test("normalizeGamePlatforms: non-array input -> []", () => {
+  assert.deepEqual(normalizeGamePlatforms(undefined), []);
+  assert.deepEqual(normalizeGamePlatforms("nope"), []);
 });

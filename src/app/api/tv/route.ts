@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createTV, type TVInput } from "@/lib/mutations";
 import { safeImageUrl } from "@/lib/ids";
-import { TV_PLATFORMS } from "@/lib/platforms";
 import { sameOrigin } from "@/lib/guard";
+import { jsonError, readJsonBody } from "@/lib/http";
+import { dedupeSeasons, normalizeSeasonInput } from "@/lib/tv";
 import { toText, toScore } from "../movies/route";
-import type { Season, SeasonHolding, OwnedEpisodes } from "@/lib/types";
+import type { Season } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -14,28 +15,13 @@ const toNum = (v: unknown): number | null => {
   return Number.isFinite(n) ? n : null;
 };
 
-// Keep only known platforms; clamp specific episode picks to 1..episode_count.
-function toHolding(h: Record<string, unknown>, episodeCount: number): SeasonHolding | null {
-  const platform = String(h?.platform || "");
-  if (!TV_PLATFORMS.includes(platform)) return null;
-  let episodes: OwnedEpisodes = "all";
-  if (Array.isArray(h.episodes)) {
-    episodes = (h.episodes as unknown[]).map(Number).filter((n) => Number.isFinite(n) && n >= 1 && n <= episodeCount);
-  }
-  return { platform, episodes };
-}
-
-function toSeason(s: Record<string, unknown>): Season {
-  const episode_count = Number(s.episode_count) || 0;
-  const owned_on = Array.isArray(s.owned_on)
-    ? (s.owned_on as Record<string, unknown>[])
-        .map((h) => toHolding(h, episode_count))
-        .filter((h): h is SeasonHolding => !!h)
-    : [];
-  return { season: Number(s.season), episode_count, owned: !!s.owned || owned_on.length > 0, owned_on };
-}
-
-export function toTVInput(b: Record<string, unknown>): TVInput {
+// Rejects the whole request (returns null) rather than silently dropping a
+// malformed season, so bad season data surfaces as a 400 instead of a season
+// quietly vanishing from the stored record.
+export function toTVInput(b: Record<string, unknown>): TVInput | null {
+  const rawSeasons = Array.isArray(b.seasons) ? (b.seasons as Record<string, unknown>[]) : [];
+  const seasons = rawSeasons.map(normalizeSeasonInput);
+  if (seasons.some((s) => s === null)) return null;
   return {
     tmdb_id: toNum(b.tmdb_id),
     series: toText((b.series as string) || (b.title as string), 200) ?? "Untitled",
@@ -44,14 +30,17 @@ export function toTVInput(b: Record<string, unknown>): TVInput {
     director: toText(b.director, 300),
     user_score: toScore(b.user_score),
     overview: toText(b.overview),
-    note: (b.note as string) || null,
-    seasons: Array.isArray(b.seasons) ? (b.seasons as Record<string, unknown>[]).map(toSeason) : [],
+    note: toText(b.note),
+    seasons: dedupeSeasons(seasons as Season[]),
   };
 }
 
 export async function POST(req: NextRequest) {
   if (!sameOrigin(req)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const body = (await req.json()) as Record<string, unknown>;
-  const id = await createTV(toTVInput(body));
+  const body = await readJsonBody(req);
+  if (body === null) return jsonError(400, "Invalid JSON body");
+  const input = toTVInput(body);
+  if (input === null) return jsonError(400, "Invalid season data");
+  const id = await createTV(input);
   return NextResponse.json({ id });
 }

@@ -3,6 +3,7 @@ import { createMovie, type MovieInput } from "@/lib/mutations";
 import { safeImageUrl } from "@/lib/ids";
 import { filterKnown, MOVIE_DIGITAL, MOVIE_PHYSICAL } from "@/lib/platforms";
 import { sameOrigin } from "@/lib/guard";
+import { jsonError, readJsonBody } from "@/lib/http";
 
 export const dynamic = "force-dynamic";
 
@@ -43,7 +44,8 @@ export function toMovieInput(b: Record<string, unknown>): MovieInput {
 
 export async function POST(req: NextRequest) {
   if (!sameOrigin(req)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const body = (await req.json()) as Record<string, unknown>;
+  const body = await readJsonBody(req);
+  if (body === null) return jsonError(400, "Invalid JSON body");
   const id = await createMovie(toMovieInput(body));
   return NextResponse.json({ id });
 }
