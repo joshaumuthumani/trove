@@ -13,7 +13,7 @@ export interface TmdbMovieMeta {
   user_score: number | null;
   overview: string | null;
 }
-export interface TmdbSeasonMeta {
+interface TmdbSeasonMeta {
   season: number;
   episode_count: number;
 }

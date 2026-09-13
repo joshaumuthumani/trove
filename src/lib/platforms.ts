@@ -5,14 +5,14 @@
    (FormatBadge). Logo asset paths point at /public/logos/*. */
 import type { GamePlatform } from "./types";
 
-export type PlatformKind = "digital" | "physical" | "tv" | "service";
+type PlatformKind = "digital" | "physical" | "tv" | "service";
 
 interface PlatformMeta {
   kind: PlatformKind;
   dot: string;
 }
 
-export const PLATFORMS: Record<string, PlatformMeta> = {
+const PLATFORMS: Record<string, PlatformMeta> = {
   // Movies — digital lockers
   "Apple TV": { kind: "digital", dot: "#9b9ba3" },
   "Movies Anywhere": { kind: "digital", dot: "#4f7df0" },
@@ -42,7 +42,7 @@ export const MOVIE_DIGITAL = [
 export const MOVIE_PHYSICAL = ["Ultra HD Blu-ray", "Blu-Ray", "DVD"];
 export const TV_PLATFORMS = ["Apple TV", "Amazon Video", "Fandango at Home", "YouTube"];
 
-export const MOVIES_ANYWHERE = "Movies Anywhere";
+const MOVIES_ANYWHERE = "Movies Anywhere";
 
 /* Toggle a digital locker with the Movies Anywhere cascade. Movies Anywhere is
    an aggregator: owning a title there means it's on every participating locker,
