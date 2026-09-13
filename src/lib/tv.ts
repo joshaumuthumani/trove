@@ -111,8 +111,8 @@ export function tvProviderEpisodeCounts(t: TVSeries): Record<string, number> {
 
 // Documented bounds for write-path validation: no real series runs this many
 // seasons/episodes; anything beyond is malformed input, not a long-running show.
-export const MAX_SEASON = 200;
-export const MAX_EPISODE_COUNT = 2000;
+const MAX_SEASON = 200;
+const MAX_EPISODE_COUNT = 2000;
 
 // Keep only known platforms; clamp specific episode picks to 1..episode_count.
 export function normalizeHoldingInput(h: Record<string, unknown>, episodeCount: number): SeasonHolding | null {

@@ -3,7 +3,7 @@
 import { cx } from "@/lib/cx";
 import { Icon } from "./icon";
 
-export function hashStr(s: string): number {
+function hashStr(s: string): number {
   let h = 0;
   for (let i = 0; i < s.length; i++) {
     h = (h << 5) - h + s.charCodeAt(i);

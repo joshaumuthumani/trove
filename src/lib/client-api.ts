@@ -31,28 +31,8 @@ export interface TmdbMeta {
   overview: string | null;
   seasons?: { season: number; episode_count: number }[];
 }
-export interface RawgMeta {
-  id: string;
-  title: string;
-  year: number | null;
-  cover_url: string | null;
-}
-export interface RawgCandidate {
-  id: number;
-  title: string;
-  year: number | null;
-  cover_url: string | null;
-}
-
 export async function fetchTmdb(idOrUrl: string, type: "movie" | "tv"): Promise<TmdbMeta> {
   return json(await fetch(`/api/metadata/tmdb?type=${type}&id=${encodeURIComponent(idOrUrl)}`));
-}
-export async function fetchRawg(idOrUrl: string): Promise<RawgMeta> {
-  return json(await fetch(`/api/metadata/rawg?id=${encodeURIComponent(idOrUrl)}`));
-}
-export async function searchRawg(name: string): Promise<RawgCandidate[]> {
-  const r = await json<{ results: RawgCandidate[] }>(await fetch(`/api/metadata/rawg?q=${encodeURIComponent(name)}`));
-  return r.results;
 }
 
 export interface IgdbCandidate {

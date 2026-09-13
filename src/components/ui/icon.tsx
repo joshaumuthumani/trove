@@ -1,7 +1,7 @@
 /* Trove — line icon set (Lucide-style), ported from lib.jsx. Pure/presentational. */
 import type { CSSProperties } from "react";
 
-export const ICON_PATHS: Record<string, string> = {
+const ICON_PATHS: Record<string, string> = {
   search: "M11 11m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0 M21 21l-4.35-4.35",
   plus: "M12 5v14 M5 12h14",
   x: "M18 6 6 18 M6 6l12 12",
